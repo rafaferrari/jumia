@@ -1,5 +1,6 @@
 package com.jumia.domain.order;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 /**
@@ -7,8 +8,10 @@ import java.util.Optional;
  */
 public interface OrderService {
 
+    Iterable<Orders> findAllByProductCreationDate(final LocalDateTime initialDate, final LocalDateTime finalDate);
+
     Iterable<Orders> findAll();
-    
+
     Optional<Orders> save(final Orders order);
 
 }

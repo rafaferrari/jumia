@@ -22,8 +22,8 @@ public class Orders {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "orders", fetch = FetchType.EAGER)
-    private Set<Item> itens;
+    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "orders", fetch = FetchType.LAZY)
+    private Set<Item> items;
 
     private String customerName;
     private String customerContact;
@@ -75,12 +75,12 @@ public class Orders {
         this.creationDate = creationDate;
     }
 
-    public Set<Item> getItens() {
-        return itens;
+    public Set<Item> getItems() {
+        return items;
     }
 
-    public void setItens(final Set<Item> itens) {
-        this.itens = itens;
+    public void setItems(final Set<Item> items) {
+        this.items = items;
     }
 
 }

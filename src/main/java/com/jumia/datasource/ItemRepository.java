@@ -1,4 +1,4 @@
-package com.jumia.datasource.item;
+package com.jumia.datasource;
 
 import com.jumia.domain.item.Item;
 import org.springframework.data.repository.CrudRepository;

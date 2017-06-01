@@ -1,6 +1,7 @@
 package com.jumia.domain.product;
 
-import java.time.LocalDate;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,8 +20,8 @@ public class Product {
     private String name;
     private String category;
     private String weight;
-    private Double price;
-    private LocalDate creationDate;
+    private BigDecimal price;
+    private LocalDateTime creationDate;
 
     public Long getId() {
         return id;
@@ -30,7 +31,7 @@ public class Product {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -38,7 +39,7 @@ public class Product {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(final String category) {
         this.category = category;
     }
 
@@ -46,23 +47,23 @@ public class Product {
         return weight;
     }
 
-    public void setWeight(String weight) {
+    public void setWeight(final String weight) {
         this.weight = weight;
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(final BigDecimal price) {
         this.price = price;
     }
 
-    public LocalDate getCreationDate() {
+    public LocalDateTime getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(LocalDate creationDate) {
+    public void setCreationDate(final LocalDateTime creationDate) {
         this.creationDate = creationDate;
     }
 

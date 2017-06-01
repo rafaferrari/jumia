@@ -1,8 +1,9 @@
 package com.jumia;
 
+import com.google.gson.JsonObject;
 import com.jumia.domain.order.OrderService;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -25,12 +26,11 @@ public class Application {
     }
 
     public void run(final String... args) {
-        orderService.findAll();
-        if (args.length == 0) {
-            throw new IllegalStateException("Please...");
-        }
+        final Optional<JsonObject> jsonObjectOpt = new NotificadorBuilder(args)
+                .adicionarOpcoes()
+                .validarArgumentos()
+                .criarObjeto();
 
-        //TODO
     }
 
 }
