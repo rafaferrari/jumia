@@ -59,8 +59,8 @@ public class OrderServiceTest {
         return itens;
     }
 
-    private Orders populateOrder(final String customerName, final LocalDate creationDate) {
-        final Orders order = new Orders();
+    private Order populateOrder(final String customerName, final LocalDate creationDate) {
+        final Order order = new Order();
         order.setCustomerName(customerName);
         order.setCustomerContact("123456");
         order.setGrandTotal(BigDecimal.ONE);
@@ -78,7 +78,7 @@ public class OrderServiceTest {
         final LocalDateTime finalDate = LocalDateTime.of(2017, Month.MARCH, 11, 0, 0, 0);
 
         // WHEN
-        final Iterable<Orders> campanhas = orderService.findAllByProductCreationDate(initialDate, finalDate);
+        final Iterable<Order> campanhas = orderService.findAllByProductCreationDate(initialDate, finalDate);
 
         // THEN
         assertThat(campanhas.spliterator().getExactSizeIfKnown()).isEqualTo(total);
@@ -92,7 +92,7 @@ public class OrderServiceTest {
         final LocalDateTime finalDate = LocalDateTime.of(2017, Month.MARCH, 9, 0, 0, 0);
 
         // WHEN
-        final Iterable<Orders> campanhas = orderService.findAllByProductCreationDate(initialDate, finalDate);
+        final Iterable<Order> campanhas = orderService.findAllByProductCreationDate(initialDate, finalDate);
 
         // THEN
         assertThat(campanhas.spliterator().getExactSizeIfKnown()).isEqualTo(total);

@@ -1,5 +1,6 @@
 package com.jumia;
 
+import com.jumia.presentation.NotificadorBuilder;
 import com.google.gson.JsonObject;
 import com.jumia.domain.order.OrderService;
 import java.util.Optional;
@@ -27,9 +28,9 @@ public class Application {
 
     public void run(final String... args) {
         final Optional<JsonObject> jsonObjectOpt = new NotificadorBuilder(args)
-                .adicionarOpcoes()
-                .validarArgumentos()
-                .criarObjeto();
+                .addOptions()
+                .validateArguments()
+                .create();
 
     }
 

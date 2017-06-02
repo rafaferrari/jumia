@@ -16,12 +16,12 @@ public class OrderServiceImpl implements OrderService {
     private OrderRepository orderRepository;
 
     @Override
-    public Iterable<Orders> findAllByProductCreationDate(final LocalDateTime initialDate, final LocalDateTime finalDate) {
+    public Iterable<Order> findAllByProductCreationDate(final LocalDateTime initialDate, final LocalDateTime finalDate) {
         return orderRepository.findAllByProductCreationDate(initialDate, finalDate);
     }
 
     @Override
-    public Optional<Orders> save(final Orders order) {
+    public Optional<Order> save(final Order order) {
         return Optional.of(orderRepository.save(order));
     }
 

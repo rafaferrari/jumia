@@ -1,6 +1,6 @@
 package com.jumia.domain.item;
 
-import com.jumia.domain.order.Orders;
+import com.jumia.domain.order.Order;
 import com.jumia.domain.product.Product;
 import java.math.BigDecimal;
 import javax.persistence.Entity;
@@ -8,7 +8,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
@@ -25,9 +24,9 @@ public class Item {
 
     @ManyToOne
     @PrimaryKeyJoinColumn
-    private Orders orders;
+    private Order order;
 
-    @OneToOne(fetch=FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @PrimaryKeyJoinColumn
     private Product product;
 
@@ -63,19 +62,19 @@ public class Item {
         this.taxAmount = taxAmount;
     }
 
-    public Orders getOrders() {
-        return orders;
+    public Order getOrder() {
+        return order;
     }
 
-    public void setOrders(final Orders orders) {
-        this.orders = orders;
+    public void setOrder(final Order order) {
+        this.order = order;
     }
 
     public Product getProduct() {
         return product;
     }
 
-    public void setProduct(Product product) {
+    public void setProduct(final Product product) {
         this.product = product;
     }
 

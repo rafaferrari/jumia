@@ -11,12 +11,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  * @author rafael.ferrari
  */
-@Entity
-public class Orders {
+@Entity(name = "product_order")
+@Table(name = "product_order")
+public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

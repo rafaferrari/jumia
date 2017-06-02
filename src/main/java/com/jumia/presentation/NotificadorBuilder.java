@@ -1,4 +1,4 @@
-package com.jumia;
+package com.jumia.presentation;
 
 import com.google.gson.JsonObject;
 import java.util.Optional;
@@ -17,33 +17,33 @@ public class NotificadorBuilder {
 
     private CommandLine cmd;
     private final Options options = new Options();
-    private final String[] argumentos;
+    private final String[] arguments;
     private boolean isHelp;
 
-    public NotificadorBuilder(final String... argumentos) {
-        this.argumentos = argumentos;
+    public NotificadorBuilder(final String... arguments) {
+        this.arguments = arguments;
     }
 
-    public NotificadorBuilder adicionarOpcoes() {
-        OptionsEnum.VALUES.stream().forEach(opcaoEnum -> {
-            this.options.addOption(this.criarOpcao(opcaoEnum.getNome(), opcaoEnum.getDescricao()));
+    public NotificadorBuilder addOptions() {
+        OptionsEnum.VALUES.stream().forEach(optionEnum -> {
+            this.options.addOption(this.createOption(optionEnum.getName(), optionEnum.getDescription()));
         });
         return this;
     }
 
-    private Option criarOpcao(final String nome, final String descricao) {
-        final Option.Builder builder = Option.builder(nome);
-        return builder.hasArg().desc(descricao).required().build();
+    private Option createOption(final String name, final String description) {
+        final Option.Builder builder = Option.builder(name);
+        return builder.hasArg().desc(description).required().build();
     }
 
-    public NotificadorBuilder validarArgumentos() {
+    public NotificadorBuilder validateArguments() {
         try {
-            if (this.isArgumentoAjuda()) {
+            if (this.isHelpArgument()) {
                 this.isHelp = true;
-                this.adicionarAjuda();
+                this.addHelp();
             } else {
                 final CommandLineParser parser = new DefaultParser();
-                this.cmd = parser.parse(this.options, this.argumentos);
+                this.cmd = parser.parse(this.options, this.arguments);
             }
         } catch (final ParseException ex) {
             throw new IllegalArgumentException(ex.getMessage());
@@ -51,17 +51,17 @@ public class NotificadorBuilder {
         return this;
     }
 
-    private boolean isArgumentoAjuda() {
-        return this.argumentos.length == 0 || this.argumentos[0].contains("-help");
+    private boolean isHelpArgument() {
+        return this.arguments.length == 0 || this.arguments[0].contains("-help");
     }
 
-    private void adicionarAjuda() {
+    private void addHelp() {
         final HelpFormatter formatter = new HelpFormatter();
         formatter.setArgName("Insira o parametro obrigatorio");
         formatter.printHelp("help", this.options);
     }
 
-    public Optional<JsonObject> criarObjeto() {
+    public Optional<JsonObject> create() {
         if (this.isHelp) {
             return Optional.empty();
         }

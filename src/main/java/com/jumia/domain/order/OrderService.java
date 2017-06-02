@@ -8,8 +8,21 @@ import java.util.Optional;
  */
 public interface OrderService {
 
-    Iterable<Orders> findAllByProductCreationDate(final LocalDateTime initialDate, final LocalDateTime finalDate);
+    /**
+     * Find All Products filtering by Product Creation Date.
+     * 
+     * @param initialDate - Initial Date to use in filter.
+     * @param finalDate - Final Date to use in filter.
+     * @return All Orders filtered by Product Creation Date.
+     */
+    Iterable<Order> findAllByProductCreationDate(final LocalDateTime initialDate, final LocalDateTime finalDate);
 
-    Optional<Orders> save(final Orders order);
+    /**
+     * Save new Order.
+     * 
+     * @param order - Order to be saved.
+     * @return Order saved.
+     */
+    Optional<Order> save(final Order order);
 
 }
