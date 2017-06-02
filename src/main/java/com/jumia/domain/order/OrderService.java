@@ -10,8 +10,6 @@ public interface OrderService {
 
     Iterable<Orders> findAllByProductCreationDate(final LocalDateTime initialDate, final LocalDateTime finalDate);
 
-    Iterable<Orders> findAll();
-
     Optional<Orders> save(final Orders order);
 
 }

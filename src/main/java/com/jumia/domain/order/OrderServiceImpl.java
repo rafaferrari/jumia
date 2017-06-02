@@ -17,13 +17,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Iterable<Orders> findAllByProductCreationDate(final LocalDateTime initialDate, final LocalDateTime finalDate) {
-        //return orderRepository.findAllByProductCreationDate(initialDate, finalDate);
-        return orderRepository.findAllByProductCreationDate();
-    }
-
-    @Override
-    public Iterable<Orders> findAll() {
-        return orderRepository.findAll();
+        return orderRepository.findAllByProductCreationDate(initialDate, finalDate);
     }
 
     @Override

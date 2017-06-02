@@ -23,8 +23,8 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "orders_id")
+    @ManyToOne
+    @PrimaryKeyJoinColumn
     private Orders orders;
 
     @OneToOne(fetch=FetchType.LAZY)

@@ -1,6 +1,5 @@
 package com.jumia.domain.order;
 
-import com.jumia.datasource.ItemRepository;
 import com.jumia.datasource.ProductRepository;
 import com.jumia.domain.item.Item;
 import com.jumia.domain.product.Product;
@@ -30,9 +29,6 @@ public class OrderServiceTest {
     private OrderService orderService;
 
     @Autowired
-    private ItemRepository itemRepository;
-
-    @Autowired
     private ProductRepository productRepository;
 
     @Before
@@ -57,7 +53,6 @@ public class OrderServiceTest {
         item.setShippingFee(BigDecimal.ONE);
         item.setTaxAmount(BigDecimal.ONE);
         item.setProduct(createProduct());
-        itemRepository.save(item);
 
         final Set<Item> itens = new HashSet<>();
         itens.add(item);
@@ -76,24 +71,25 @@ public class OrderServiceTest {
     }
 
     @Test
-    public void test_get_all_orders() throws ServiceException {
+    public void test_should_get_all_orders_by_product_creation_date() throws ServiceException {
         // GIVEN 
-        final Long total = 1L;
+        final int total = 1;
+        final LocalDateTime initialDate = LocalDateTime.of(2017, Month.MARCH, 10, 0, 0, 0);
+        final LocalDateTime finalDate = LocalDateTime.of(2017, Month.MARCH, 11, 0, 0, 0);
 
         // WHEN
-        final Iterable<Orders> campanhas = orderService.findAll();
+        final Iterable<Orders> campanhas = orderService.findAllByProductCreationDate(initialDate, finalDate);
 
         // THEN
         assertThat(campanhas.spliterator().getExactSizeIfKnown()).isEqualTo(total);
     }
-
+    
     @Test
-    public void test_get_all_orders_by_product_creation_date() throws ServiceException {
+    public void test_should_not_get_all_orders_by_product_creation_date() throws ServiceException {
         // GIVEN 
-        final Iterable<Product> products = productRepository.findAll();
-        final Long total = 1L;
-        final LocalDateTime initialDate = LocalDateTime.of(2016, Month.MARCH, 10, 0, 0, 0);
-        final LocalDateTime finalDate = LocalDateTime.of(2018, Month.MARCH, 10, 0, 0, 0);
+        final int total = 0;
+        final LocalDateTime initialDate = LocalDateTime.of(2017, Month.MARCH, 8, 0, 0, 0);
+        final LocalDateTime finalDate = LocalDateTime.of(2017, Month.MARCH, 9, 0, 0, 0);
 
         // WHEN
         final Iterable<Orders> campanhas = orderService.findAllByProductCreationDate(initialDate, finalDate);
