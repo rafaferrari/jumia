@@ -1,7 +1,10 @@
 package com.jumia.domain.order;
 
+import com.jumia.datasource.ItemRepository;
 import com.jumia.datasource.OrderRepository;
-import java.time.LocalDateTime;
+import com.jumia.domain.item.Item;
+import java.time.Month;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,9 +18,19 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
+    private ItemRepository itemRepository;
+
     @Override
-    public Iterable<Order> findAllByProductCreationDate(final LocalDateTime initialDate, final LocalDateTime finalDate) {
-        return orderRepository.findAllByProductCreationDate(initialDate, finalDate);
+    public Iterable<Order> findAllByProductCreationDate(final SearchOrderDTO orderDTO) {
+        final List<Item> items = itemRepository.findAllByOrderPlacedDate(orderDTO.getInitialDate(), orderDTO.getFinalDate());
+
+        System.out.printf("%d%n", Month.FEBRUARY.maxLength());
+
+        final long count = items.parallelStream().filter(
+                item -> item.getProduct().getCreationDate().toLocalDate().isBefore(orderDTO.getInitialDate().toLocalDate())).count();
+
+        return null;
     }
 
     @Override

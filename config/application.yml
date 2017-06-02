@@ -1,0 +1,17 @@
+# SPRING CONFIGURATION
+spring:
+  main:
+    banner-mode: "off"
+  # DATABASE CONFIGURATION  
+  datasource:
+    url: jdbc:oracle:thin:@localhost:1521/xe
+    username: springboot
+    password: springboot1
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5Dialect
+    
+# LOG CONFIGURATION
+logging:
+  level:
+    org.springframework: ERROR
+    org.hibernate: ERROR

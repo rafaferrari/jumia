@@ -19,7 +19,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
      * @param finalDate - Final Date to use in filter.
      * @return All Orders filtered by Product Creation Date.
      */
-    @Query("SELECT o FROM product_order o JOIN FETCH o.items i WHERE i.product.creationDate BETWEEN :initialDate AND :finalDate")
+    @Query("SELECT o FROM product_order o JOIN FETCH o.items i WHERE o.placedDate BETWEEN :initialDate AND :finalDate")
     List<Order> findAllByProductCreationDate(@Param("initialDate") final LocalDateTime initialDate, @Param("finalDate") final LocalDateTime finalDate);
 
 }
