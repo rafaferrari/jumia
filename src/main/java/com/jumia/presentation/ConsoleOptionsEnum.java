@@ -6,16 +6,17 @@ import java.util.List;
 /**
  * @author rafael.ferrari
  */
-public enum OptionsEnum {
+public enum ConsoleOptionsEnum {
 
-    INITIAL_DATE("initialDate", "Initial Date"),
-    FINAL_DATE("finalDate", "Final Date");
+    INITIAL_DATE("initialDate Ex: 2016-01-01 00:00:00", "Initial Date"),
+    FINAL_DATE("finalDate Ex: 2017-01-01 00:00:00", "Final Date"),
+    MONTH_SORT("monthSort Ex: 1-3, 4-6, 7-12", "Month Sort");
 
-    public static final List<OptionsEnum> VALUES = ImmutableList.copyOf(OptionsEnum.values());
+    public static final List<ConsoleOptionsEnum> VALUES = ImmutableList.copyOf(ConsoleOptionsEnum.values());
     private final String name;
     private final String description;
 
-    private OptionsEnum(final String name, final String description) {
+    private ConsoleOptionsEnum(final String name, final String description) {
         this.name = name;
         this.description = description;
     }

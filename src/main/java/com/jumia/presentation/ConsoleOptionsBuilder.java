@@ -1,9 +1,6 @@
 package com.jumia.presentation;
 
 import com.google.gson.JsonObject;
-import com.jumia.domain.order.SearchOrderDTO;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -16,20 +13,19 @@ import org.apache.commons.cli.ParseException;
 /**
  * @author rafael.ferrari
  */
-public class OrderDtoBuilder {
+public class ConsoleOptionsBuilder {
 
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     private final Options options = new Options();
     private final String[] arguments;
     private CommandLine cmd;
     private boolean isHelp;
 
-    public OrderDtoBuilder(final String... arguments) {
+    public ConsoleOptionsBuilder(final String... arguments) {
         this.arguments = arguments;
     }
 
-    public OrderDtoBuilder addOptions() {
-        OptionsEnum.VALUES.stream().forEach(optionEnum -> {
+    public ConsoleOptionsBuilder addOptions() {
+        ConsoleOptionsEnum.VALUES.stream().forEach(optionEnum -> {
             this.options.addOption(this.createOption(optionEnum.getName(), optionEnum.getDescription()));
         });
         return this;
@@ -40,7 +36,7 @@ public class OrderDtoBuilder {
         return builder.hasArg().desc(description).required().build();
     }
 
-    public OrderDtoBuilder validateArguments() {
+    public ConsoleOptionsBuilder validateArguments() {
         try {
             if (this.isHelpArgument()) {
                 this.isHelp = true;
@@ -65,7 +61,7 @@ public class OrderDtoBuilder {
         formatter.printHelp("help", this.options);
     }
 
-    public Optional<SearchOrderDTO> create() {
+    public Optional<JsonObject> create() {
         if (this.isHelp) {
             return Optional.empty();
         }
@@ -75,20 +71,7 @@ public class OrderDtoBuilder {
             jsonObject.addProperty(option.getOpt(), option.getValue());
         }
 
-        final LocalDateTime initialDate = LocalDateTime.parse(jsonObject.get("initialDate").getAsString(), DATE_TIME_FORMATTER);
-        final LocalDateTime finalDate = LocalDateTime.parse(jsonObject.get("finalDate").getAsString(), DATE_TIME_FORMATTER);
-        validateRangeDate(initialDate, finalDate);
-
-        final SearchOrderDTO orderDTO = new SearchOrderDTO();
-        orderDTO.setInitialDate(initialDate);
-        orderDTO.setFinalDate(finalDate);
-        return Optional.of(orderDTO);
-    }
-
-    private void validateRangeDate(final LocalDateTime initialDate, final LocalDateTime finalDate) {
-        if (initialDate.toLocalDate().isAfter(finalDate.toLocalDate())) {
-            throw new IllegalStateException("Invalid Range of Dates.");
-        }
+        return Optional.of(jsonObject);
     }
 
 }
