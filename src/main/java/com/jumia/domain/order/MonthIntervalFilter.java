@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 /**
  * @author rafael.ferrari
  */
-public class MonthFilterDTO {
+public class MonthIntervalFilter {
 
     private final LocalDateTime initialOrderDate;
     private final LocalDateTime initialMonthDate;
@@ -14,7 +14,7 @@ public class MonthFilterDTO {
     private final int initialMonth;
     private final int finalMonth;
 
-    private MonthFilterDTO(final MonthFilterDTOBuilder builder) {
+    private MonthIntervalFilter(final MonthIntervalFilterBuilder builder) {
         this.initialOrderDate = builder.initialOrderDate;
         this.initialMonthDate = builder.initialMonthDate;
         this.finalMonthDate = builder.finalMonthDate;
@@ -30,7 +30,7 @@ public class MonthFilterDTO {
         return finalMonthDate;
     }
 
-    public static class MonthFilterDTOBuilder {
+    public static class MonthIntervalFilterBuilder {
 
         private final LocalDateTime initialOrderDate;
         private LocalDateTime initialMonthDate;
@@ -38,7 +38,7 @@ public class MonthFilterDTO {
         private final int initialMonth;
         private final int finalMonth;
 
-        public MonthFilterDTOBuilder(final LocalDateTime initialOrderDate, final int initialMonth, final int finalMonth) {
+        public MonthIntervalFilterBuilder(final LocalDateTime initialOrderDate, final int initialMonth, final int finalMonth) {
             this.initialOrderDate = initialOrderDate;
             this.initialMonth = isValidMonth(initialMonth);
             this.finalMonth = isValidMonth(finalMonth);
@@ -51,11 +51,11 @@ public class MonthFilterDTO {
             return month;
         }
 
-        public MonthFilterDTO build() {
+        public MonthIntervalFilter build() {
             isValidMonthInterval(initialMonth, finalMonth);
             this.initialMonthDate = initialOrderDate.withMonth(initialMonth);
             this.finalMonthDate = initialOrderDate.withMonth(finalMonth);
-            return new MonthFilterDTO(this);
+            return new MonthIntervalFilter(this);
         }
 
         private void isValidMonthInterval(final int initialMonth, final int finalMonth) {

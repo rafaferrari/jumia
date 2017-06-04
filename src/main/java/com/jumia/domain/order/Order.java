@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author rafael.ferrari
@@ -26,13 +27,22 @@ public class Order {
     private Long id;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name="order_id")
+    @JoinColumn(name = "order_id")
     private Set<Item> items;
 
+    @NotNull
     private String customerName;
+
+    @NotNull
     private String customerContact;
+
+    @NotNull
     private String shippingAddress;
+
+    @NotNull
     private BigDecimal grandTotal;
+
+    @NotNull
     private LocalDateTime placedDate;
 
     public Long getId() {

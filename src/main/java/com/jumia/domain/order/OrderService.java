@@ -1,7 +1,6 @@
 package com.jumia.domain.order;
 
 import com.jumia.domain.exception.ServiceException;
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -12,13 +11,13 @@ import java.util.Optional;
 public interface OrderService {
 
     /**
-     * Find All Products filtering by Product Creation Date.
+     * Count All Orders Grouping by Product Creation Date.
      *
      * @param orderDTO - Object with data to filter Orders.
-     * @return All Orders filtered by Product Creation Date.
+     * @return Count Orders filtered by Product Creation Date.
      * @throws ServiceException
      */
-    List<Long> findAllByProductCreationDate(final OrderDTO orderDTO) throws ServiceException;
+    StringBuilder countAllByProductCreationDate(final OrderDTO orderDTO) throws ServiceException;
 
     /**
      * Save new Order.

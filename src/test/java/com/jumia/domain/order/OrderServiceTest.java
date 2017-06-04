@@ -1,7 +1,7 @@
 package com.jumia.domain.order;
 
 import com.jumia.domain.exception.ServiceException;
-import com.jumia.datasource.ProductRepository;
+import com.jumia.datasource.product.ProductRepository;
 import com.jumia.domain.item.Item;
 import com.jumia.domain.product.Product;
 import java.math.BigDecimal;
@@ -35,10 +35,96 @@ public class OrderServiceTest {
     private ProductRepository productRepository;
 
     @Before
-    public void setup() throws ServiceException {
-        final Product product = productRepository.save(createProduct());
-        final Set<Item> items = createItems(product);
-        orderService.save(populateOrder(items));
+    public void setup() {
+        populateDatabase();
+    }
+
+    @Test
+    public void test_should_get_all_orders_by_order_placed_date() throws ServiceException {
+        // GIVEN 
+        final LocalDateTime initialDate = LocalDateTime.of(2016, Month.JANUARY, 1, 0, 0, 0);
+        final LocalDateTime finalDate = LocalDateTime.of(2017, Month.JANUARY, 1, 0, 0, 0);
+
+        final List<MonthIntervalFilter> monthFilters = new ArrayList<>();
+        monthFilters.add(new MonthIntervalFilter.MonthIntervalFilterBuilder(initialDate, 1, 6).build());
+
+        final OrderDTO orderDTO = new OrderDTO.OrderDTOBuilder(initialDate, finalDate, monthFilters).build();
+
+        // WHEN
+        final StringBuilder campanhas = orderService.countAllByProductCreationDate(orderDTO);
+
+        // THEN
+        assertThat(campanhas.length()).isGreaterThan(1);
+    }
+
+    @Test
+    public void test_should_not_get_all_orders_by_order_placed_date() throws ServiceException {
+        // GIVEN 
+        final LocalDateTime initialDate = LocalDateTime.of(2017, Month.JANUARY, 1, 0, 0, 0);
+        final LocalDateTime finalDate = LocalDateTime.of(2018, Month.JANUARY, 1, 0, 0, 0);
+
+        final List<MonthIntervalFilter> monthFilters = new ArrayList<>();
+        monthFilters.add(new MonthIntervalFilter.MonthIntervalFilterBuilder(initialDate, 6, 9).build());
+
+        final OrderDTO orderDTO = new OrderDTO.OrderDTOBuilder(initialDate, finalDate, monthFilters).build();
+
+        // WHEN
+        final StringBuilder campanhas = orderService.countAllByProductCreationDate(orderDTO);
+
+        // THEN
+        assertThat(campanhas.length()).isEqualTo(0);
+    }
+
+    @Test
+    public void test_should_not_get_all_orders_with_invalid_placed_date() throws ServiceException {
+        // GIVEN 
+        final LocalDateTime initialDate = LocalDateTime.of(2016, Month.JANUARY, 1, 0, 0, 0);
+        final LocalDateTime finalDate = LocalDateTime.of(2017, Month.JANUARY, 1, 0, 0, 0);
+
+        final List<MonthIntervalFilter> monthFilters = new ArrayList<>();
+        monthFilters.add(new MonthIntervalFilter.MonthIntervalFilterBuilder(initialDate, 7, 12).build());
+
+        final OrderDTO orderDTO = new OrderDTO.OrderDTOBuilder(initialDate, finalDate, monthFilters).build();
+
+        // WHEN
+        final StringBuilder campanhas = orderService.countAllByProductCreationDate(orderDTO);
+
+        // THEN
+        assertThat(campanhas.length()).isGreaterThan(0);
+    }
+
+    @Test(expected = ServiceException.class)
+    public void test_should_throw_exception_when_save_invalid_order() throws ServiceException {
+        // GIVEN
+        final Order order = null;
+
+        // WHEN
+        orderService.save(order);
+
+        // THEN 
+        // Catch the ServiceException
+    }
+
+    @Test(expected = ServiceException.class)
+    public void test_should_throw_exception_when_get_all_orders_with_invalid_orderdto() throws ServiceException {
+        // GIVEN
+        final OrderDTO orderDTO = null;
+
+        // WHEN
+        orderService.countAllByProductCreationDate(orderDTO);
+
+        // THEN 
+        // Catch the ServiceException
+    }
+
+    private void populateDatabase() {
+        try {
+            final Product product = createProduct();
+            final Set<Item> items = createItems(product);
+            createOrder(items);
+        } catch (final ServiceException e) {
+            e.printStackTrace();
+        }
     }
 
     private Product createProduct() {
@@ -48,6 +134,7 @@ public class OrderServiceTest {
         product.setPrice(BigDecimal.ONE);
         product.setWeight("100g");
         product.setCreationDate(LocalDateTime.of(2016, Month.MARCH, 2, 0, 0, 0));
+        productRepository.save(product);
         return product;
     }
 
@@ -63,7 +150,7 @@ public class OrderServiceTest {
         return items;
     }
 
-    private Order populateOrder(final Set<Item> items) {
+    private void createOrder(final Set<Item> items) throws ServiceException {
         final Order order = new Order();
         order.setCustomerName("Rafael");
         order.setCustomerContact("123456");
@@ -71,43 +158,7 @@ public class OrderServiceTest {
         order.setShippingAddress("Street 1");
         order.setPlacedDate(LocalDateTime.of(2016, Month.MARCH, 4, 0, 0, 0));
         order.setItems(items);
-        return order;
-    }
-
-    @Test
-    public void test_should_get_all_orders_by_product_creation_date() throws ServiceException {
-        // GIVEN 
-        final LocalDateTime initialDate = LocalDateTime.of(2016, Month.JANUARY, 1, 0, 0, 0);
-        final LocalDateTime finalDate = LocalDateTime.of(2017, Month.JANUARY, 1, 0, 0, 0);
-        
-        final List<MonthFilterDTO> monthFilters = new ArrayList<>();
-        monthFilters.add(new MonthFilterDTO.MonthFilterDTOBuilder(initialDate, 1, 6).build());
-        
-        final OrderDTO orderDTO = new OrderDTO.OrderDTOBuilder(initialDate, finalDate, monthFilters).build();     
-        
-        // WHEN
-        final List<Long> campanhas = orderService.findAllByProductCreationDate(orderDTO);
-
-        // THEN
-        assertThat(campanhas.size()).isEqualTo(1);
-    }
-    
-    @Test
-    public void test_should_not_get_all_orders_by_product_creation_date() throws ServiceException {
-        // GIVEN 
-        final LocalDateTime initialDate = LocalDateTime.of(2016, Month.JANUARY, 1, 0, 0, 0);
-        final LocalDateTime finalDate = LocalDateTime.of(2017, Month.JANUARY, 1, 0, 0, 0);
-        
-        final List<MonthFilterDTO> monthFilters = new ArrayList<>();
-        monthFilters.add(new MonthFilterDTO.MonthFilterDTOBuilder(initialDate, 6, 9).build());
-        
-        final OrderDTO orderDTO = new OrderDTO.OrderDTOBuilder(initialDate, finalDate, monthFilters).build();     
-        
-        // WHEN
-        final List<Long> campanhas = orderService.findAllByProductCreationDate(orderDTO);
-
-        // THEN
-        assertThat(campanhas.size()).isEqualTo(1);
+        orderService.save(order);
     }
 
 }

@@ -4,13 +4,15 @@ import com.google.common.collect.ImmutableList;
 import java.util.List;
 
 /**
+ * Enum with Console Options to Pass as Arguments.
+ *
  * @author rafael.ferrari
  */
 public enum ConsoleOptionsEnum {
 
-    INITIAL_DATE("initialDate Ex: 2016-01-01 00:00:00", "Initial Date"),
-    FINAL_DATE("finalDate Ex: 2017-01-01 00:00:00", "Final Date"),
-    MONTH_SORT("monthSort Ex: 1-3, 4-6, 7-12", "Month Sort");
+    INITIAL_DATE("initialDate", "Initial Date. Ex: 2016-01-01 00:00:00"),
+    FINAL_DATE("finalDate", "Final Date. Ex: 2017-01-01 00:00:00"),
+    MONTH_SORT("monthSort", "Month Sort Interval. Ex: 1-3, 4-6, 7-12");
 
     public static final List<ConsoleOptionsEnum> VALUES = ImmutableList.copyOf(ConsoleOptionsEnum.values());
     private final String name;

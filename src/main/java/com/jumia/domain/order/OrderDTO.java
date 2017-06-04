@@ -10,12 +10,12 @@ public class OrderDTO {
 
     private final LocalDateTime initialDate;
     private final LocalDateTime finalDate;
-    private final List<MonthFilterDTO> monthFiltersDTO;
+    private final List<MonthIntervalFilter> monthIntervalFilters;
 
     private OrderDTO(final OrderDTOBuilder builder) {
         this.initialDate = builder.initialDate;
         this.finalDate = builder.finalDate;
-        this.monthFiltersDTO = builder.monthFiltersDTO;
+        this.monthIntervalFilters = builder.monthIntervalFilters;
     }
 
     public LocalDateTime getInitialDate() {
@@ -26,30 +26,30 @@ public class OrderDTO {
         return finalDate;
     }
 
-    public List<MonthFilterDTO> getMonthFiltersDTO() {
-        return monthFiltersDTO;
+    public List<MonthIntervalFilter> getMonthIntervalFilters() {
+        return monthIntervalFilters;
     }
 
     public static class OrderDTOBuilder {
 
         private LocalDateTime initialDate;
         private LocalDateTime finalDate;
-        private final List<MonthFilterDTO> monthFiltersDTO;
+        private final List<MonthIntervalFilter> monthIntervalFilters;
 
-        public OrderDTOBuilder(final LocalDateTime initialDate, final LocalDateTime finalDate, final List<MonthFilterDTO> monthFiltersDTO) {
+        public OrderDTOBuilder(final LocalDateTime initialDate, final LocalDateTime finalDate, final List<MonthIntervalFilter> monthIntervalFilters) {
             this.initialDate = initialDate;
             this.finalDate = finalDate;
-            this.monthFiltersDTO = monthFiltersDTO;
+            this.monthIntervalFilters = monthIntervalFilters;
         }
 
         public OrderDTO build() {
-            validateMonthOrderDtos(monthFiltersDTO);
+            validateMonthIntervalFilters(monthIntervalFilters);
             validateRangeDate(initialDate, finalDate);
             return new OrderDTO(this);
         }
 
-        private void validateMonthOrderDtos(final List<MonthFilterDTO> monthOrderDtos) {
-            if (monthOrderDtos.isEmpty()) {
+        private void validateMonthIntervalFilters(final List<MonthIntervalFilter> monthIntervalFilters) {
+            if (monthIntervalFilters.isEmpty()) {
                 throw new IllegalStateException("List of Month Filters is Empty.");
             }
         }
