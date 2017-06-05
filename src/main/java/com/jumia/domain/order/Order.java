@@ -4,45 +4,37 @@ import com.jumia.domain.item.Item;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import javax.persistence.*;
 
 /**
  * @author rafael.ferrari
  */
-@Entity(name = "product_order")
-@Table(name = "product_order")
+@Entity(name = "PRODUCT_ORDER")
+@Table(name = "PRODUCT_ORDER")
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID", nullable = false)
     private Long id;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id")
+    @JoinColumn(name = "ORDER_ID")
     private Set<Item> items;
 
-    @NotNull
+    @Column(name = "CUSTOMER_NAME", nullable = false)
     private String customerName;
 
-    @NotNull
+    @Column(name = "CUSTOMER_CONTACT", nullable = false)
     private String customerContact;
 
-    @NotNull
+    @Column(name = "SHIPPING_ADDRESS", nullable = false)
     private String shippingAddress;
 
-    @NotNull
+    @Column(name = "GRAND_TOTAL", nullable = false)
     private BigDecimal grandTotal;
 
-    @NotNull
+    @Column(name = "PLACED_DATE", nullable = false)
     private LocalDateTime placedDate;
 
     public Long getId() {

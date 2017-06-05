@@ -3,35 +3,35 @@ package com.jumia.domain.item;
 import com.jumia.domain.order.Order;
 import com.jumia.domain.product.Product;
 import java.math.BigDecimal;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.*;
 
 /**
  * @author rafael.ferrari
  */
-@Entity
+@Entity(name = "ITEM")
+@Table(name = "ITEM")
 public class Item {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID", nullable = false)
     private Long id;
 
     @ManyToOne
-    @PrimaryKeyJoinColumn
+    @PrimaryKeyJoinColumn(name = "ORDER_ID")
     private Order order;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @PrimaryKeyJoinColumn
+    @PrimaryKeyJoinColumn(name = "ID_PRODUCT")
     private Product product;
 
+    @Column(name = "COST", nullable = false)
     private BigDecimal cost;
+
+    @Column(name = "SHIPPING_FEE", nullable = false)
     private BigDecimal shippingFee;
+
+    @Column(name = "TAX_AMOUNT", nullable = false)
     private BigDecimal taxAmount;
 
     public Long getId() {

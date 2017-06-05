@@ -19,7 +19,7 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
      * @param finalDate - Final Date to use in filter.
      * @return All Items filtered by Order Placed Date.
      */
-    @Query("SELECT i FROM Item i JOIN FETCH i.order o WHERE o.placedDate BETWEEN :initialDate AND :finalDate")
+    @Query("SELECT i FROM ITEM i JOIN FETCH i.order o WHERE o.placedDate BETWEEN :initialDate AND :finalDate")
     List<Item> findAllByOrderPlacedDate(@Param("initialDate") final LocalDateTime initialDate, @Param("finalDate") final LocalDateTime finalDate);
 
 }

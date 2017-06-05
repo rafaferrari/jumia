@@ -2,25 +2,33 @@ package com.jumia.domain.product;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * @author rafael.ferrari
  */
-@Entity
+@Entity(name = "PRODUCT")
+@Table(name = "PRODUCT")
 public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID", nullable = false)
     private Long id;
 
+    @Column(name = "NAME", nullable = false)
     private String name;
+
+    @Column(name = "CATEGORY", nullable = false)
     private String category;
+
+    @Column(name = "WEIGHT", nullable = false)
     private String weight;
+
+    @Column(name = "PRICE", nullable = false)
     private BigDecimal price;
+
+    @Column(name = "CREATION_DATE", nullable = false)
     private LocalDateTime creationDate;
 
     public Long getId() {
