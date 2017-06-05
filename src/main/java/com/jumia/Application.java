@@ -36,8 +36,7 @@ public class Application {
 
     public static void main(final String... arguments) {
         final ConfigurableApplicationContext context = SpringApplication.run(Application.class, arguments);
-        final Application app = context.getBean(Application.class);
-        app.run(arguments);
+        context.getBean(Application.class).run(arguments);
     }
 
     private void run(final String... arguments) {
@@ -45,10 +44,12 @@ public class Application {
         final Optional<JsonObject> parameters = createConsoleOptions(arguments);
         parameters.ifPresent(p -> {
             final LocalDateTime initialDate = LocalDateTime.parse(p.get("initialDate").getAsString(), DATE_TIME_FORMATTER);
-            final LocalDateTime finalDate = LocalDateTime.parse(p.get("finalDate").getAsString(), DATE_TIME_FORMATTER);
-            final List<MonthIntervalFilter> monthFilters = parseMonthFilters(p.get("monthSort").getAsString());            
-            try {
-                final OrderDTO orderDTO = new OrderDTO.OrderDTOBuilder(initialDate, finalDate, monthFilters).build();
+            final LocalDateTime finalDate = LocalDateTime.parse(p.get("finalDate").getAsString(), DATE_TIME_FORMATTER);            
+            final List<MonthIntervalFilter> monthFilters = parseMonthFilters(p.get("monthSort").getAsString());
+            
+            final OrderDTO orderDTO = new OrderDTO.OrderDTOBuilder(initialDate, finalDate, monthFilters).build();
+            
+            try {                
                 logger.info(orderService.countAllByProductCreationDate(Optional.of(orderDTO)).toString());
             } catch (final ServiceException e) {
                 logger.error("Error running application -> " + e.getMessage());
