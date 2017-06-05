@@ -4,6 +4,7 @@ import com.jumia.domain.exception.ServiceException;
 import com.jumia.datasource.product.ProductRepository;
 import com.jumia.domain.item.Item;
 import com.jumia.domain.product.Product;
+import com.jumia.domain.product.Product.Category;
 import java.math.BigDecimal;
 import java.time.*;
 import java.util.*;
@@ -138,7 +139,7 @@ public class OrderServiceTest {
     private Product createProduct() {
         final Product product = new Product();
         product.setName("Cellphone");
-        product.setCategory("Category");
+        product.setCategory(Category.Eletronic);
         product.setPrice(BigDecimal.ONE);
         product.setWeight("100g");
         product.setCreationDate(LocalDateTime.of(2016, Month.MARCH, 2, 0, 0, 0));

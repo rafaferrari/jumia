@@ -6,10 +6,10 @@ databaseChangeLog:
       changes:
       - sql:
           dbms: mysql
-          sql: insert into product (NAME, CATEGORY, WEIGHT, PRICE, CREATION_DATE) values ("Notebook", "Eletronics", "2.2kg", "400.00", '2016-03-02 00:00:00')
+          sql: insert into product (NAME, CATEGORY, WEIGHT, PRICE, CREATION_DATE) values ("Notebook", "Eletronic", "2.2kg", "400.00", '2016-03-02 00:00:00')
       - sql:
           dbms: mysql
-          sql: insert into product (NAME, CATEGORY, WEIGHT, PRICE, CREATION_DATE) values ("Iphone", "Eletronics", "140g", "750.00", '2016-05-02 00:00:00')
+          sql: insert into product (NAME, CATEGORY, WEIGHT, PRICE, CREATION_DATE) values ("Iphone", "Eletronic", "140g", "750.00", '2016-05-02 00:00:00')
                   
   - changeSet:
       id: DML-ORDER
