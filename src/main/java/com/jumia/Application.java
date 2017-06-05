@@ -27,48 +27,57 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories
 @SpringBootApplication
 public class Application {
-    
+
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    
+
     @Autowired
     private OrderService orderService;
-    
+
     public static void main(final String... arguments) {
         final ConfigurableApplicationContext context = SpringApplication.run(Application.class, arguments);
         final Application app = context.getBean(Application.class);
         app.run(arguments);
     }
-    
-    private void run(final String... args) {
-        final Optional<JsonObject> parameters = createConsoleOptions(args);
+
+    private void run(final String... arguments) {
+        logger.debug("Running application.");
+        final Optional<JsonObject> parameters = createConsoleOptions(arguments);
         parameters.ifPresent(p -> {
             final LocalDateTime initialDate = LocalDateTime.parse(p.get("initialDate").getAsString(), DATE_TIME_FORMATTER);
             final LocalDateTime finalDate = LocalDateTime.parse(p.get("finalDate").getAsString(), DATE_TIME_FORMATTER);
-
-            //TODO
-            final List<MonthIntervalFilter> monthFilters = new ArrayList<>();
-            monthFilters.add(new MonthIntervalFilter.MonthIntervalFilterBuilder(1, 3).build());
-            monthFilters.add(new MonthIntervalFilter.MonthIntervalFilterBuilder(4, 6).build());
-            monthFilters.add(new MonthIntervalFilter.MonthIntervalFilterBuilder(7, 9).build());
-            monthFilters.add(new MonthIntervalFilter.MonthIntervalFilterBuilder(10, 12).build());
-            
-            final OrderDTO orderDTO = new OrderDTO.OrderDTOBuilder(initialDate, finalDate, monthFilters).build();
+            final List<MonthIntervalFilter> monthFilters = parseMonthFilters(p.get("monthSort").getAsString());            
             try {
+                final OrderDTO orderDTO = new OrderDTO.OrderDTOBuilder(initialDate, finalDate, monthFilters).build();
                 logger.info(orderService.countAllByProductCreationDate(Optional.of(orderDTO)).toString());
-            } catch (ServiceException e) {
+            } catch (final ServiceException e) {
                 //TODO
                 e.printStackTrace();
             }
         });
     }
-    
-    private Optional<JsonObject> createConsoleOptions(final String... args) {
+
+    private Optional<JsonObject> createConsoleOptions(final String... arguments) {
         logger.debug("Creating Console Options With Console Args.");
-        return new ConsoleOptionsBuilder(args)
+        return new ConsoleOptionsBuilder(arguments)
                 .addOptions()
                 .validateArguments()
                 .create();
     }
-    
+
+    private List<MonthIntervalFilter> parseMonthFilters(final String monthSort) {
+        logger.debug("Parsing of monthFilters values.");
+        final List<MonthIntervalFilter> monthIntervalFilters = new ArrayList<>();
+        final String[] filters = monthSort.replaceAll("\\s+", "").split(",");
+        for (final String monthFilter : filters) {
+            if (!monthFilter.matches("(\\d{1,2})-(\\d{1,2})")) {
+                throw new IllegalArgumentException("Invalid value inputed for monthFilters.");
+            }
+            final String[] resultValues = monthFilter.split("-");
+            monthIntervalFilters.add(new MonthIntervalFilter.MonthIntervalFilterBuilder(
+                    Integer.parseInt(resultValues[0]), Integer.parseInt(resultValues[1])).build());
+        }
+        return monthIntervalFilters;
+    }
+
 }
