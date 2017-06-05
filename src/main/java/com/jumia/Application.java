@@ -51,8 +51,8 @@ public class Application {
                 final OrderDTO orderDTO = new OrderDTO.OrderDTOBuilder(initialDate, finalDate, monthFilters).build();
                 logger.info(orderService.countAllByProductCreationDate(Optional.of(orderDTO)).toString());
             } catch (final ServiceException e) {
-                //TODO
-                e.printStackTrace();
+                logger.error("Error running application -> " + e.getMessage());
+                throw new IllegalStateException(e);
             }
         });
     }
