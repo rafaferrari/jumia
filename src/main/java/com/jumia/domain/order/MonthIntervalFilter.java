@@ -1,45 +1,41 @@
 package com.jumia.domain.order;
 
 import java.time.DateTimeException;
-import java.time.LocalDateTime;
+import java.time.Month;
 
 /**
  * @author rafael.ferrari
  */
 public class MonthIntervalFilter {
 
-    private final LocalDateTime initialOrderDate;
-    private final LocalDateTime initialMonthDate;
-    private final LocalDateTime finalMonthDate;
+    private final Month initialMonthFilter;
+    private final Month finalMonthFilter;
     private final int initialMonth;
     private final int finalMonth;
 
     private MonthIntervalFilter(final MonthIntervalFilterBuilder builder) {
-        this.initialOrderDate = builder.initialOrderDate;
-        this.initialMonthDate = builder.initialMonthDate;
-        this.finalMonthDate = builder.finalMonthDate;
+        this.initialMonthFilter = builder.initialMonthFilter;
+        this.finalMonthFilter = builder.finalMonthFilter;
         this.initialMonth = builder.initialMonth;
         this.finalMonth = builder.finalMonth;
     }
 
-    public LocalDateTime getInitialMonthDate() {
-        return initialMonthDate;
+    public Month getInitialMonthFilter() {
+        return initialMonthFilter;
     }
 
-    public LocalDateTime getFinalMonthDate() {
-        return finalMonthDate;
+    public Month getFinalMonthFilter() {
+        return finalMonthFilter;
     }
 
     public static class MonthIntervalFilterBuilder {
 
-        private final LocalDateTime initialOrderDate;
-        private LocalDateTime initialMonthDate;
-        private LocalDateTime finalMonthDate;
+        private Month initialMonthFilter;
+        private Month finalMonthFilter;
         private final int initialMonth;
         private final int finalMonth;
 
-        public MonthIntervalFilterBuilder(final LocalDateTime initialOrderDate, final int initialMonth, final int finalMonth) {
-            this.initialOrderDate = initialOrderDate;
+        public MonthIntervalFilterBuilder(final int initialMonth, final int finalMonth) {
             this.initialMonth = isValidMonth(initialMonth);
             this.finalMonth = isValidMonth(finalMonth);
         }
@@ -53,8 +49,10 @@ public class MonthIntervalFilter {
 
         public MonthIntervalFilter build() {
             isValidMonthInterval(initialMonth, finalMonth);
-            this.initialMonthDate = initialOrderDate.withMonth(initialMonth);
-            this.finalMonthDate = initialOrderDate.withMonth(finalMonth);
+
+            initialMonthFilter = Month.of(initialMonth);
+            finalMonthFilter = Month.of(finalMonth);
+
             return new MonthIntervalFilter(this);
         }
 

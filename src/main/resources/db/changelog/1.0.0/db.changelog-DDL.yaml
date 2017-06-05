@@ -35,7 +35,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: CREATION_DATE
-                  type: dateTime
+                  type: DATETIME
                   constraints:
                     nullable: false
                     
@@ -77,8 +77,8 @@ databaseChangeLog:
                   name: TAX_AMOUNT
                   type: decimal(13, 2)
                   constraints:
-                    nullable: false
-                    
+                    nullable: false                    
+  
   - changeSet:
       id: DDL-PRODUCT_ORDER
       author: rafael.ferrari
@@ -118,7 +118,40 @@ databaseChangeLog:
                   type: datetime
                   constraints:
                     nullable: false
-                    
+  
+  - changeSet:
+      id: SEQUENCE-PRODUCT-ID
+      author: rafael.ferrari
+      changes:
+      - addAutoIncrement:
+          columnDataType: int
+          columnName: ID
+          incrementBy: 1
+          startWith: 1
+          tableName: PRODUCT
+          
+  - changeSet:
+      id: SEQUENCE-ITEM-ID
+      author: rafael.ferrari
+      changes:
+      - addAutoIncrement:
+          columnDataType: int
+          columnName: ID
+          incrementBy: 1
+          startWith: 1
+          tableName: ITEM
+          
+  - changeSet:
+      id: SEQUENCE-ORDER-ID
+      author: rafael.ferrari
+      changes:
+      - addAutoIncrement:
+          columnDataType: int
+          columnName: ID
+          incrementBy: 1
+          startWith: 1
+          tableName: PRODUCT_ORDER
+      
   - changeSet:
       id: FOREIGNKEY-ITEM-PRODUCT
       author: rafael.ferrari

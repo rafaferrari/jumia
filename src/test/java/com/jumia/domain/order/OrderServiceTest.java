@@ -5,12 +5,8 @@ import com.jumia.datasource.product.ProductRepository;
 import com.jumia.domain.item.Item;
 import com.jumia.domain.product.Product;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.time.Month;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.time.*;
+import java.util.*;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -46,7 +42,7 @@ public class OrderServiceTest {
         final LocalDateTime finalDate = LocalDateTime.of(2017, Month.JANUARY, 1, 0, 0, 0);
 
         final List<MonthIntervalFilter> monthFilters = new ArrayList<>();
-        monthFilters.add(new MonthIntervalFilter.MonthIntervalFilterBuilder(initialDate, 1, 6).build());
+        monthFilters.add(new MonthIntervalFilter.MonthIntervalFilterBuilder(1, 6).build());
 
         final OrderDTO orderDTO = new OrderDTO.OrderDTOBuilder(initialDate, finalDate, monthFilters).build();
 
@@ -64,7 +60,7 @@ public class OrderServiceTest {
         final LocalDateTime finalDate = LocalDateTime.of(2018, Month.JANUARY, 1, 0, 0, 0);
 
         final List<MonthIntervalFilter> monthFilters = new ArrayList<>();
-        monthFilters.add(new MonthIntervalFilter.MonthIntervalFilterBuilder(initialDate, 6, 9).build());
+        monthFilters.add(new MonthIntervalFilter.MonthIntervalFilterBuilder(6, 9).build());
 
         final OrderDTO orderDTO = new OrderDTO.OrderDTOBuilder(initialDate, finalDate, monthFilters).build();
 
@@ -82,7 +78,7 @@ public class OrderServiceTest {
         final LocalDateTime finalDate = LocalDateTime.of(2017, Month.JANUARY, 1, 0, 0, 0);
 
         final List<MonthIntervalFilter> monthFilters = new ArrayList<>();
-        monthFilters.add(new MonthIntervalFilter.MonthIntervalFilterBuilder(initialDate, 7, 12).build());
+        monthFilters.add(new MonthIntervalFilter.MonthIntervalFilterBuilder(7, 12).build());
 
         final OrderDTO orderDTO = new OrderDTO.OrderDTOBuilder(initialDate, finalDate, monthFilters).build();
 
@@ -96,13 +92,25 @@ public class OrderServiceTest {
     @Test(expected = ServiceException.class)
     public void test_should_throw_exception_when_save_invalid_order() throws ServiceException {
         // GIVEN
-        final Order order = null;
+        final Optional<Order> order = Optional.of(new Order());
 
         // WHEN
         orderService.save(order);
 
         // THEN 
         // Catch the ServiceException
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void test_should_throw_exception_when_try_to_save_invalid_order() throws ServiceException {
+        // GIVEN
+        final Optional<Order> order = Optional.empty();
+
+        // WHEN
+        orderService.save(order);
+
+        // THEN 
+        // Catch the IllegalArgumentException
     }
 
     @Test(expected = ServiceException.class)
@@ -123,7 +131,7 @@ public class OrderServiceTest {
             final Set<Item> items = createItems(product);
             createOrder(items);
         } catch (final ServiceException e) {
-            e.printStackTrace();
+            throw new IllegalStateException(e);
         }
     }
 
@@ -138,12 +146,12 @@ public class OrderServiceTest {
         return product;
     }
 
-    private Set<Item> createItems(final Product produto) {
+    private Set<Item> createItems(final Product product) {
         final Item item = new Item();
         item.setCost(BigDecimal.ONE);
         item.setShippingFee(BigDecimal.ONE);
         item.setTaxAmount(BigDecimal.ONE);
-        item.setProduct(produto);
+        item.setProduct(product);
 
         final Set<Item> items = new HashSet<>();
         items.add(item);
@@ -158,7 +166,7 @@ public class OrderServiceTest {
         order.setShippingAddress("Street 1");
         order.setPlacedDate(LocalDateTime.of(2016, Month.MARCH, 4, 0, 0, 0));
         order.setItems(items);
-        orderService.save(order);
+        orderService.save(Optional.of(order));
     }
 
 }

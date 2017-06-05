@@ -5,7 +5,7 @@ import java.util.Optional;
 
 /**
  * Service responsible for Order actions.
- * 
+ *
  * @author rafael.ferrari
  */
 public interface OrderService {
@@ -26,6 +26,6 @@ public interface OrderService {
      * @return Order saved.
      * @throws ServiceException
      */
-    Optional<Order> save(final Order order) throws ServiceException;
+    Optional<Order> save(final Optional<Order> order) throws ServiceException;
 
 }

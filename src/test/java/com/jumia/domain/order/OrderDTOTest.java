@@ -25,7 +25,7 @@ public class OrderDTOTest {
         final LocalDateTime finalDate = LocalDateTime.of(2017, Month.JANUARY, 1, 0, 0, 0);
 
         final List<MonthIntervalFilter> monthFilters = new ArrayList<>();
-        monthFilters.add(new MonthIntervalFilter.MonthIntervalFilterBuilder(initialDate, 1, 6).build());
+        monthFilters.add(new MonthIntervalFilter.MonthIntervalFilterBuilder(1, 6).build());
 
         // WHEN
         final OrderDTO orderDTO = new OrderDTO.OrderDTOBuilder(initialDate, finalDate, monthFilters).build();
@@ -56,7 +56,7 @@ public class OrderDTOTest {
         final LocalDateTime finalDate = LocalDateTime.of(2017, Month.JANUARY, 1, 0, 0, 0);
 
         final List<MonthIntervalFilter> monthFilters = new ArrayList<>();
-        monthFilters.add(new MonthIntervalFilter.MonthIntervalFilterBuilder(initialDate, 1, 6).build());
+        monthFilters.add(new MonthIntervalFilter.MonthIntervalFilterBuilder(1, 6).build());
 
         // WHEN
         new OrderDTO.OrderDTOBuilder(initialDate, finalDate, monthFilters).build();

@@ -28,22 +28,22 @@ public class ConsoleOptionsBuilder {
     }
     
     public ConsoleOptionsBuilder addOptions() {
-        logger.info("Adding Options.");
+        logger.debug("Adding Options.");
         ConsoleOptionsEnum.VALUES.stream().forEach(optionEnum -> {
             this.options.addOption(this.createOption(optionEnum.getName(), optionEnum.getDescription()));
         });
-        logger.info("Options Added.");
+        logger.debug("Options Added.");
         return this;
     }
     
     private Option createOption(final String name, final String description) {
-        logger.info("Creating Options.");
+        logger.debug("Creating Options.");
         final Option.Builder builder = Option.builder(name);
         return builder.hasArg().desc(description).required().build();
     }
     
     public ConsoleOptionsBuilder validateArguments() {
-        logger.info("Validating Arguments.");
+        logger.debug("Validating Arguments.");
         try {
             if (this.isHelpArgument()) {
                 this.isHelp = true;
@@ -56,7 +56,7 @@ public class ConsoleOptionsBuilder {
             logger.error("Error Validating Arguments.");
             throw new IllegalArgumentException(ex.getMessage());
         }
-        logger.info("Arguments Validated.");
+        logger.debug("Arguments Validated.");
         return this;
     }
     
@@ -65,14 +65,14 @@ public class ConsoleOptionsBuilder {
     }
     
     private void addHelp() {
-        logger.info("Adding Help To Show.");
+        logger.debug("Adding Help To Show.");
         final HelpFormatter formatter = new HelpFormatter();
         formatter.setArgName("Insert the required parameter.");
         formatter.printHelp("help", this.options);
     }
     
     public Optional<JsonObject> create() {
-        logger.info("Creating.");
+        logger.debug("Creating.");
         if (this.isHelp) {
             return Optional.empty();
         }
@@ -82,7 +82,7 @@ public class ConsoleOptionsBuilder {
             jsonObject.addProperty(option.getOpt(), option.getValue());
         }
         
-        logger.info("Created.");
+        logger.debug("Created.");
         return Optional.of(jsonObject);
     }
     

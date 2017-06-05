@@ -27,7 +27,7 @@ public class MonthIntervalFilterTest {
 
         // WHEN
         final List<MonthIntervalFilter> monthFilters = new ArrayList<>();
-        monthFilters.add(new MonthIntervalFilter.MonthIntervalFilterBuilder(initialDate, january, march).build());
+        monthFilters.add(new MonthIntervalFilter.MonthIntervalFilterBuilder(january, march).build());
 
         // THEN
         assertThat(monthFilters.size()).isEqualTo(1);
@@ -41,7 +41,7 @@ public class MonthIntervalFilterTest {
         final int march = 13;
 
         // WHEN
-        new MonthIntervalFilter.MonthIntervalFilterBuilder(initialDate, january, march).build();
+        new MonthIntervalFilter.MonthIntervalFilterBuilder(january, march).build();
 
         // THEN
         // Catch the DateTimeException
@@ -55,7 +55,7 @@ public class MonthIntervalFilterTest {
         final int march = 1;
 
         // WHEN
-        new MonthIntervalFilter.MonthIntervalFilterBuilder(initialDate, january, march).build();
+        new MonthIntervalFilter.MonthIntervalFilterBuilder(january, march).build();
 
         // THEN
         // Catch the IllegalStateException

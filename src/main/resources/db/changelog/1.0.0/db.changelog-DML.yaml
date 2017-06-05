@@ -1,0 +1,32 @@
+databaseChangeLog:
+                  
+  - changeSet:
+      id: DML-PRODUCT
+      author: rafael.ferrari
+      changes:
+      - sql:
+          dbms: mysql
+          sql: insert into product (NAME, CATEGORY, WEIGHT, PRICE, CREATION_DATE) values ("Notebook", "Eletronics", "2.2kg", "400.00", '2016-03-02 00:00:00')
+      - sql:
+          dbms: mysql
+          sql: insert into product (NAME, CATEGORY, WEIGHT, PRICE, CREATION_DATE) values ("Iphone", "Eletronics", "140g", "750.00", '2016-05-02 00:00:00')
+                  
+  - changeSet:
+      id: DML-ORDER
+      author: rafael.ferrari
+      changes:
+      - sql:
+          dbms: mysql
+          sql: insert into product_order (CUSTOMER_NAME, CUSTOMER_CONTACT, SHIPPING_ADDRESS, GRAND_TOTAL, PLACED_DATE) values ("Rafael", "+55 48 9 99965182", "Street of dreams", "750.00", '2016-10-04 00:00:00')
+      
+  - changeSet:
+      id: DML-ITEM
+      author: rafael.ferrari
+      changes:
+      - sql:
+          dbms: mysql
+          sql: insert into item (ORDER_ID, ID_PRODUCT, COST, SHIPPING_FEE, TAX_AMOUNT) values ((SELECT MAX(id) FROM PRODUCT_ORDER), 1, "3.50", "3.50", '3.50')
+      - sql:
+          dbms: mysql
+          sql: insert into item (ORDER_ID, ID_PRODUCT, COST, SHIPPING_FEE, TAX_AMOUNT) values ((SELECT MAX(id) FROM PRODUCT_ORDER), 2, "7.50", "7.50", '7.50')
+                  
