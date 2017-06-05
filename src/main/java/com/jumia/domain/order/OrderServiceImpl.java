@@ -27,15 +27,15 @@ public class OrderServiceImpl implements OrderService {
     private ItemRepository itemRepository;
 
     @Override
-    public StringBuilder countAllByProductCreationDate(final OrderDTO orderDTO) throws ServiceException {
+    public StringBuilder countAllByProductCreationDate(final Optional<OrderDTO> orderDTO) throws ServiceException {
         logger.debug("Filtering Orders by Production Creating Date.");
         try {
             final StringBuilder result = new StringBuilder();
-            final List<Item> items = itemRepository.findAllByOrderPlacedDate(orderDTO.getInitialDate(), orderDTO.getFinalDate());
+            final List<Item> items = itemRepository.findAllByOrderPlacedDate(orderDTO.get().getInitialDate(), orderDTO.get().getFinalDate());
             if (!items.isEmpty()) {
-                orderDTO.getMonthIntervalFilters().forEach(c -> {
+                orderDTO.get().getMonthIntervalFilters().forEach(c -> {
                     final long count = items.parallelStream().filter(isBetween(c.getInitialMonthFilter(), c.getFinalMonthFilter())).count();
-                    result.append(String.format("%s-%s months: %s orders %n", c.getInitialMonthFilter(), c.getFinalMonthFilter(), count));
+                    result.append(String.format("%n %s-%s months: %s orders", c.getInitialMonthFilter(), c.getFinalMonthFilter(), count));
                 });
             }
             return result;

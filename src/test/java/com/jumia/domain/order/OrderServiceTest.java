@@ -47,7 +47,7 @@ public class OrderServiceTest {
         final OrderDTO orderDTO = new OrderDTO.OrderDTOBuilder(initialDate, finalDate, monthFilters).build();
 
         // WHEN
-        final StringBuilder campanhas = orderService.countAllByProductCreationDate(orderDTO);
+        final StringBuilder campanhas = orderService.countAllByProductCreationDate(Optional.of(orderDTO));
 
         // THEN
         assertThat(campanhas.length()).isGreaterThan(1);
@@ -65,7 +65,7 @@ public class OrderServiceTest {
         final OrderDTO orderDTO = new OrderDTO.OrderDTOBuilder(initialDate, finalDate, monthFilters).build();
 
         // WHEN
-        final StringBuilder campanhas = orderService.countAllByProductCreationDate(orderDTO);
+        final StringBuilder campanhas = orderService.countAllByProductCreationDate(Optional.of(orderDTO));
 
         // THEN
         assertThat(campanhas.length()).isEqualTo(0);
@@ -83,7 +83,7 @@ public class OrderServiceTest {
         final OrderDTO orderDTO = new OrderDTO.OrderDTOBuilder(initialDate, finalDate, monthFilters).build();
 
         // WHEN
-        final StringBuilder campanhas = orderService.countAllByProductCreationDate(orderDTO);
+        final StringBuilder campanhas = orderService.countAllByProductCreationDate(Optional.of(orderDTO));
 
         // THEN
         assertThat(campanhas.length()).isGreaterThan(0);
@@ -119,7 +119,7 @@ public class OrderServiceTest {
         final OrderDTO orderDTO = null;
 
         // WHEN
-        orderService.countAllByProductCreationDate(orderDTO);
+        orderService.countAllByProductCreationDate(Optional.ofNullable(orderDTO));
 
         // THEN 
         // Catch the ServiceException

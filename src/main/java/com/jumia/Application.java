@@ -27,19 +27,19 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories
 @SpringBootApplication
 public class Application {
-
+    
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
+    
     @Autowired
     private OrderService orderService;
-
+    
     public static void main(final String... arguments) {
         final ConfigurableApplicationContext context = SpringApplication.run(Application.class, arguments);
         final Application app = context.getBean(Application.class);
         app.run(arguments);
     }
-
+    
     private void run(final String... args) {
         final Optional<JsonObject> parameters = createConsoleOptions(args);
         parameters.ifPresent(p -> {
@@ -50,17 +50,19 @@ public class Application {
             final List<MonthIntervalFilter> monthFilters = new ArrayList<>();
             monthFilters.add(new MonthIntervalFilter.MonthIntervalFilterBuilder(1, 3).build());
             monthFilters.add(new MonthIntervalFilter.MonthIntervalFilterBuilder(4, 6).build());
-
+            monthFilters.add(new MonthIntervalFilter.MonthIntervalFilterBuilder(7, 9).build());
+            monthFilters.add(new MonthIntervalFilter.MonthIntervalFilterBuilder(10, 12).build());
+            
             final OrderDTO orderDTO = new OrderDTO.OrderDTOBuilder(initialDate, finalDate, monthFilters).build();
             try {
-                logger.info(orderService.countAllByProductCreationDate(orderDTO).toString());
+                logger.info(orderService.countAllByProductCreationDate(Optional.of(orderDTO)).toString());
             } catch (ServiceException e) {
                 //TODO
                 e.printStackTrace();
             }
         });
     }
-
+    
     private Optional<JsonObject> createConsoleOptions(final String... args) {
         logger.debug("Creating Console Options With Console Args.");
         return new ConsoleOptionsBuilder(args)
@@ -68,5 +70,5 @@ public class Application {
                 .validateArguments()
                 .create();
     }
-
+    
 }
