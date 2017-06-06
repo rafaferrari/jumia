@@ -22,12 +22,17 @@ public class ProcessOrder {
 
     public void process(final ConsoleOptionsProcessor consoleOptions) {
         try {
-            final OrderDTO orderDTO = new OrderDTO(consoleOptions.getInitialDate().get(), consoleOptions.getFinalDate().get(), consoleOptions.getMonthFilters());
-            LOGGER.info(orderService.countAllByProductCreationDate(Optional.of(orderDTO)));
+            final Optional<OrderDTO> orderDTO = createOrderDTO(consoleOptions);
+            LOGGER.info(orderService.countAllByProductCreationDate(orderDTO));
         } catch (final ServiceException e) {
             LOGGER.error("Error running application -> " + e.getMessage());
             throw new IllegalStateException(e);
         }
+    }
+
+    private Optional<OrderDTO> createOrderDTO(final ConsoleOptionsProcessor consoleOptions) {
+        return Optional.of(new OrderDTO(
+                consoleOptions.getInitialDate().get(), consoleOptions.getFinalDate().get(), consoleOptions.getMonthFilters()));
     }
 
 }
