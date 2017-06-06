@@ -12,11 +12,11 @@ The result should be a list of intervals (in months) that groups the orders base
 - Log Manager: Log4J
 - Version Control: Git
 - Build Tool: Gradle
-- Guava
+- Google Guava
 - Database: MySQL
 - Database Source Control: Liquibase
 - API for Parsing Command Line: Apache Commons CLI
-- Code Coverageand Tests Reports: Jacoco 
+- Code Coverage and Tests Reports: Jacoco 
 
 # How to Use
 
@@ -24,13 +24,25 @@ The result should be a list of intervals (in months) that groups the orders base
 - Install [Gradle](https://docs.gradle.org/current/userguide/installation.html)
 - Install [MySQL](https://www.mysql.com/downloads/)
 - Configure MySQL(URL, USER and PASS) in the Project at "src/main/resources/application.yml"
+- To run tests and generate reports with Jacoco:
+```bash
+gradle clean test jacocoTestReport
+```
 - To build project, run below code in root:
 ```bash
 gradle clean build
 ```
-- To run tests and generate reports with Jacoco:
+- After build project, gradle will generate the .jar file at "build/libs/"
+- To run project, run the code below:
 ```bash
-gradle clean test jacocoTestReport
+java -jar orders-1.0.0.jar -initialDate "2016-01-01 00:00:00" -finalDate "2017-01-01 00:00:00" -monthSort "1-3, 4-6, 7-12"
+```
+- You can change all parameters, ass follows bellow:
+```bash
+java -jar orders-1.0.0.jar -initialDate "2015-01-01 00:00:00" -finalDate "2016-01-01 00:00:00" -monthSort "1-2, 3-4, 5-6, 7-12"
+```
+```bash
+java -jar orders-1.0.0.jar -initialDate "2017-01-01 00:00:00" -finalDate "2018-01-01 00:00:00" -monthSort "1-6, 7-12"
 ```
 
 # About
