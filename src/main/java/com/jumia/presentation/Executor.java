@@ -1,5 +1,6 @@
 package com.jumia.presentation;
 
+import com.google.common.base.Preconditions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.google.gson.JsonObject;
@@ -27,7 +28,6 @@ public class Executor {
     private OrderService orderService;
 
     public void run(final String... arguments) {
-        LOGGER.debug("Running application.");
         final Optional<JsonObject> parameters = createConsoleOptions(arguments);
         parameters.ifPresent(p -> {
             final LocalDateTime initialDate = LocalDateTime.parse(p.get("initialDate").getAsString(), DATE_TIME_FORMATTER);
@@ -45,7 +45,6 @@ public class Executor {
     }
 
     private Optional<JsonObject> createConsoleOptions(final String... arguments) {
-        LOGGER.debug("Creating Console Options With Console Args.");
         return new ConsoleOptionsBuilder(arguments)
                 .addOptions()
                 .validateArguments()
@@ -53,16 +52,12 @@ public class Executor {
     }
 
     private List<MonthIntervalFilter> parseMonthFilters(final String monthSort) {
-        LOGGER.debug("Parsing of Month Filters values.");
-
         final List<MonthIntervalFilter> monthIntervalFilters = new ArrayList<>();
 
         final String[] filters = monthSort.replaceAll("\\s+", "").split(",");
         for (final String monthFilter : filters) {
-            if (!monthFilter.matches("(\\d{1,2})-(\\d{1,2})")) {
-                throw new IllegalArgumentException("Invalid value inputed for monthFilters.");
-            }
-
+            Preconditions.checkArgument(monthFilter.matches("(\\d{1,2})-(\\d{1,2})"), "Invalid value inputed for monthFilters.");
+            
             final String[] resultValues = monthFilter.split("-");
             monthIntervalFilters.add(new MonthIntervalFilter(Integer.parseInt(resultValues[0]), Integer.parseInt(resultValues[1])));
         }

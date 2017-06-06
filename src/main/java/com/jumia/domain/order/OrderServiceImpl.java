@@ -1,14 +1,15 @@
 package com.jumia.domain.order;
 
+import com.google.common.base.Preconditions;
 import com.jumia.datasource.item.ItemRepository;
 import com.jumia.datasource.order.OrderRepository;
 import com.jumia.domain.exception.ServiceException;
 import com.jumia.domain.item.Item;
 import java.time.Month;
 import java.util.*;
+import org.slf4j.*;
 import java.util.Optional;
 import java.util.function.Predicate;
-import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class OrderServiceImpl implements OrderService {
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private OrderRepository orderRepository;
@@ -28,7 +29,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public StringBuilder countAllByProductCreationDate(final Optional<OrderDTO> orderDTO) throws ServiceException {
-        logger.debug("Filtering Orders by Production Creating Date.");
+        LOGGER.debug("Filtering Orders by Production Creating Date.");
         try {
             final StringBuilder result = new StringBuilder();
             final List<Item> items = itemRepository.findAllByOrderPlacedDate(orderDTO.get().getInitialDate(), orderDTO.get().getFinalDate());
@@ -40,7 +41,7 @@ public class OrderServiceImpl implements OrderService {
             }
             return result;
         } catch (final Exception e) {
-            logger.error("Error Filtering Orders by Production Creating Date.");
+            LOGGER.error("Error Filtering Orders by Production Creating Date.");
             throw new ServiceException(e.getMessage());
         }
     }
@@ -52,14 +53,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Optional<Order> save(final Optional<Order> order) throws ServiceException {
-        logger.debug("Saving Order.");
-        if (!order.isPresent()) {
-            throw new IllegalArgumentException("Invalid Order to Save. The Order is empty.");
-        }
+        Preconditions.checkArgument(order.isPresent(), "Invalid Order to Save. The Order is empty.");
         try {
             return Optional.of(orderRepository.save(order.get()));
         } catch (final Exception e) {
-            logger.error("Error saving/updating an Order.");
+            LOGGER.error("Error saving/updating an Order.");
             throw new ServiceException(e.getMessage());
         }
     }
