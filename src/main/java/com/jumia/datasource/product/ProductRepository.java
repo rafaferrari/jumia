@@ -1,7 +1,7 @@
 package com.jumia.datasource.product;
 
-import com.jumia.domain.product.Product;
 import org.springframework.data.repository.CrudRepository;
+import com.jumia.domain.product.Product;
 
 /**
  * @author rafael.ferrari

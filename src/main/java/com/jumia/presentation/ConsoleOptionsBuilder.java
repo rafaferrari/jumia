@@ -16,74 +16,74 @@ import org.slf4j.LoggerFactory;
  * @author rafael.ferrari
  */
 public class ConsoleOptionsBuilder {
-    
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    private final Options options = new Options();
+
+    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+    private final Options OPTIONS = new Options();
     private final String[] arguments;
     private CommandLine cmd;
     private boolean isHelp;
-    
+
     public ConsoleOptionsBuilder(final String... arguments) {
         this.arguments = arguments;
     }
-    
+
     public ConsoleOptionsBuilder addOptions() {
-        logger.debug("Adding Options.");
+        LOGGER.debug("Adding Options.");
         ConsoleOptionsEnum.VALUES.stream().forEach(optionEnum -> {
-            this.options.addOption(this.createOption(optionEnum.getName(), optionEnum.getDescription()));
+            this.OPTIONS.addOption(this.createOption(optionEnum.getName(), optionEnum.getDescription()));
         });
-        logger.debug("Options Added.");
+        LOGGER.debug("Options Added.");
         return this;
     }
-    
+
     private Option createOption(final String name, final String description) {
-        logger.debug("Creating Options.");
+        LOGGER.debug("Creating Options.");
         final Option.Builder builder = Option.builder(name);
         return builder.hasArg().desc(description).required().build();
     }
-    
+
     public ConsoleOptionsBuilder validateArguments() {
-        logger.debug("Validating Arguments.");
+        LOGGER.debug("Validating Arguments.");
         try {
             if (this.isHelpArgument()) {
                 this.isHelp = true;
                 this.addHelp();
             } else {
                 final CommandLineParser parser = new DefaultParser();
-                this.cmd = parser.parse(this.options, this.arguments);
+                this.cmd = parser.parse(this.OPTIONS, this.arguments);
             }
         } catch (final ParseException ex) {
-            logger.error("Error Validating Arguments.");
+            LOGGER.error("Error Validating Arguments.");
             throw new IllegalArgumentException(ex.getMessage());
         }
-        logger.debug("Arguments Validated.");
+        LOGGER.debug("Arguments Validated.");
         return this;
     }
-    
+
     private boolean isHelpArgument() {
         return this.arguments.length == 0 || this.arguments[0].contains("-help");
     }
-    
+
     private void addHelp() {
-        logger.debug("Adding Help To Show.");
+        LOGGER.debug("Adding Help To Show.");
         final HelpFormatter formatter = new HelpFormatter();
         formatter.setArgName("Insert the required parameter.");
-        formatter.printHelp("help", this.options);
+        formatter.printHelp("help", this.OPTIONS);
     }
-    
+
     public Optional<JsonObject> create() {
-        logger.debug("Creating.");
+        LOGGER.debug("Creating.");
         if (this.isHelp) {
             return Optional.empty();
         }
-        
+
         final JsonObject jsonObject = new JsonObject();
         for (final Option option : this.cmd.getOptions()) {
             jsonObject.addProperty(option.getOpt(), option.getValue());
         }
-        
-        logger.debug("Created.");
+
+        LOGGER.debug("Created.");
         return Optional.of(jsonObject);
     }
-    
+
 }

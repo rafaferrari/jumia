@@ -21,7 +21,7 @@ public class Product {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "CATEGORY", nullable = false)
-    private Category category;
+    private ProductCategoryEnum category;
 
     @Column(name = "WEIGHT", nullable = false)
     private String weight;
@@ -31,14 +31,6 @@ public class Product {
 
     @Column(name = "CREATION_DATE", nullable = false)
     private LocalDateTime creationDate;
-
-    public enum Category {
-        Eletronic,
-        Clothes,
-        Accessories,
-        Travel,
-        Food
-    }
 
     public Long getId() {
         return id;
@@ -52,11 +44,11 @@ public class Product {
         this.name = name;
     }
 
-    public Category getCategory() {
+    public ProductCategoryEnum getCategory() {
         return category;
     }
 
-    public void setCategory(final Category category) {
+    public void setCategory(final ProductCategoryEnum category) {
         this.category = category;
     }
 
