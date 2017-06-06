@@ -28,13 +28,15 @@ The result should be a list of intervals (in months) that groups the orders base
 ```bash
 gradle clean test jacocoTestReport
 ```
-- You can see Jacoco results openning the file "build/reports/jacoco/test/html/index.html"
+- After execute the above task, you can see Jacoco results openning the file "build/reports/jacoco/test/html/index.html"
+
 - To build project, run below code in root:
 ```bash
 gradle clean build
 ```
 - After project build, gradle will generate the "orders-1.0.0.jar" at "build/libs/"
 - The first time that you build project, liquibase will generate all database structure and create some inital data(ORDERS, ITEMS AND PRODUCTS) to see when run the project.
+
 - To run project, run the code below:
 ```bash
 java -jar orders-1.0.0.jar -initialDate "2016-01-01 00:00:00" -finalDate "2017-01-01 00:00:00" -monthSort "1-3, 4-6, 7-12"
