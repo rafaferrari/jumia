@@ -1,6 +1,6 @@
 package com.jumia;
 
-import com.jumia.presentation.Executor;
+import com.jumia.presentation.ProcessOrder;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -16,7 +16,7 @@ import org.junit.After;
 @ActiveProfiles("test")
 public class IntegrationTest {
 
-    final TestLogger LOGGER = TestLoggerFactory.getTestLogger(Executor.class);
+    final TestLogger LOGGER = TestLoggerFactory.getTestLogger(ProcessOrder.class);
 
     @After
     public void clearLoggers() {
