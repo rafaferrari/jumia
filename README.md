@@ -28,6 +28,7 @@ The result should be a list of intervals (in months) that groups the orders base
 ```bash
 gradle clean test jacocoTestReport
 ```
+- You can see Jacoco results openning the file "build/reports/jacoco/test/html/index.html"
 - To build project, run below code in root:
 ```bash
 gradle clean build
