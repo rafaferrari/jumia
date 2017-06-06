@@ -32,12 +32,13 @@ gradle clean test jacocoTestReport
 ```bash
 gradle clean build
 ```
-- After build project, gradle will generate the .jar file at "build/libs/"
+- After project build, gradle will generate the "orders-1.0.0.jar" at "build/libs/"
+- The first time that you build project, liquibase will generate all database structure and create some inital data(ORDERS, ITEMS AND PRODUCTS) to see when run the project.
 - To run project, run the code below:
 ```bash
 java -jar orders-1.0.0.jar -initialDate "2016-01-01 00:00:00" -finalDate "2017-01-01 00:00:00" -monthSort "1-3, 4-6, 7-12"
 ```
-- You can change all parameters, ass follows bellow:
+- You can change all parameters, as follows bellow:
 ```bash
 java -jar orders-1.0.0.jar -initialDate "2015-01-01 00:00:00" -finalDate "2016-01-01 00:00:00" -monthSort "1-2, 3-4, 5-6, 7-12"
 ```
