@@ -1,17 +1,17 @@
 package com.jumia.domain.order;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import com.google.common.base.Preconditions;
-import com.jumia.datasource.item.ItemRepository;
-import com.jumia.datasource.order.OrderRepository;
-import com.jumia.domain.exception.ServiceException;
-import com.jumia.domain.item.Item;
 import java.time.Month;
 import java.util.*;
 import org.slf4j.*;
 import java.util.Optional;
 import java.util.function.Predicate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.jumia.datasource.item.ItemRepository;
+import com.jumia.datasource.order.OrderRepository;
+import com.jumia.domain.exception.ServiceException;
+import com.jumia.domain.item.Item;
 
 /**
  * @author rafael.ferrari
@@ -34,7 +34,7 @@ public class OrderServiceImpl implements OrderService {
             final List<Item> items = itemRepository.findAllByOrderPlacedDate(orderDTO.get().getInitialDate(), orderDTO.get().getFinalDate());
             if (!items.isEmpty()) {
                 orderDTO.get().getMonthIntervalFilters().forEach(c -> {
-                    final long count = items.parallelStream().filter(isBetween(c.getInitialMonthFilter(), c.getFinalMonthFilter())).count();
+                    final long count = items.stream().filter(isBetween(c.getInitialMonthFilter(), c.getFinalMonthFilter())).count();
                     result.append(String.format("%n %s-%s months: %s orders", c.getInitialMonthFilter(), c.getFinalMonthFilter(), count));
                 });
             }

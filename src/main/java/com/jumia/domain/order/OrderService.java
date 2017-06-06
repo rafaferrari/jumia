@@ -14,7 +14,7 @@ public interface OrderService {
      * Count All Orders Grouping by Product Creation Date.
      *
      * @param orderDTO - Object with data to filter Orders.
-     * @return Count Orders filtered by Product Creation Date.
+     * @return Formatted String With Count Orders filtered by Product Creation Date.
      * @throws ServiceException
      */
     String countAllByProductCreationDate(final Optional<OrderDTO> orderDTO) throws ServiceException;

@@ -1,0 +1,11 @@
+spring:    
+  datasource:
+    initialize: true
+    driver-class-name: org.hsqldb.jdbcDriver
+    url: jdbc:hsqldb:mem:scratchdb
+    username: sa
+    password: 
+  jpa:
+    database: HSQL
+    database-platform: org.hibernate.dialect.HSQLDialect
+    hibernate.ddl-auto: create-drop

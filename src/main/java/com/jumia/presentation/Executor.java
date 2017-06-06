@@ -9,9 +9,7 @@ import org.slf4j.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import com.jumia.domain.exception.ServiceException;
-import com.jumia.domain.order.MonthIntervalFilter;
-import com.jumia.domain.order.OrderDTO;
-import com.jumia.domain.order.OrderService;
+import com.jumia.domain.order.*;
 
 /**
  * Component responsible for receive console arguments.

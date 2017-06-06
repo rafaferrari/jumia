@@ -1,5 +1,6 @@
 package com.jumia.domain.order;
 
+import com.google.common.base.Preconditions;
 import java.time.Month;
 
 /**
@@ -17,9 +18,7 @@ public class MonthIntervalFilter {
     }
 
     private void isValidMonthInterval() {
-        if (initialMonthFilter.compareTo(finalMonthFilter) > 0) {
-            throw new IllegalStateException("Invalid Month Intervals.");
-        }
+        Preconditions.checkState(initialMonthFilter.compareTo(finalMonthFilter) < 0, "Invalid Month Intervals.");
     }
 
     public Month getInitialMonthFilter() {
