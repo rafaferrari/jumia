@@ -43,9 +43,9 @@ public class OrderServiceTest {
         final LocalDateTime finalDate = LocalDateTime.of(2017, Month.JANUARY, 1, 0, 0, 0);
 
         final List<MonthIntervalFilter> monthFilters = new ArrayList<>();
-        monthFilters.add(new MonthIntervalFilter.MonthIntervalFilterBuilder(1, 6).build());
+        monthFilters.add(new MonthIntervalFilter(1, 6));
 
-        final OrderDTO orderDTO = new OrderDTO.OrderDTOBuilder(initialDate, finalDate, monthFilters).build();
+        final OrderDTO orderDTO = new OrderDTO(initialDate, finalDate, monthFilters);
 
         // WHEN
         final StringBuilder campanhas = orderService.countAllByProductCreationDate(Optional.of(orderDTO));
@@ -61,9 +61,9 @@ public class OrderServiceTest {
         final LocalDateTime finalDate = LocalDateTime.of(2018, Month.JANUARY, 1, 0, 0, 0);
 
         final List<MonthIntervalFilter> monthFilters = new ArrayList<>();
-        monthFilters.add(new MonthIntervalFilter.MonthIntervalFilterBuilder(6, 9).build());
+        monthFilters.add(new MonthIntervalFilter(6, 9));
 
-        final OrderDTO orderDTO = new OrderDTO.OrderDTOBuilder(initialDate, finalDate, monthFilters).build();
+        final OrderDTO orderDTO = new OrderDTO(initialDate, finalDate, monthFilters);
 
         // WHEN
         final StringBuilder campanhas = orderService.countAllByProductCreationDate(Optional.of(orderDTO));
@@ -79,9 +79,9 @@ public class OrderServiceTest {
         final LocalDateTime finalDate = LocalDateTime.of(2017, Month.JANUARY, 1, 0, 0, 0);
 
         final List<MonthIntervalFilter> monthFilters = new ArrayList<>();
-        monthFilters.add(new MonthIntervalFilter.MonthIntervalFilterBuilder(7, 12).build());
+        monthFilters.add(new MonthIntervalFilter(7, 12));
 
-        final OrderDTO orderDTO = new OrderDTO.OrderDTOBuilder(initialDate, finalDate, monthFilters).build();
+        final OrderDTO orderDTO = new OrderDTO(initialDate, finalDate, monthFilters);
 
         // WHEN
         final StringBuilder campanhas = orderService.countAllByProductCreationDate(Optional.of(orderDTO));

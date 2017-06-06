@@ -4,7 +4,7 @@ import com.jumia.domain.exception.ServiceException;
 import java.util.Optional;
 
 /**
- * Service responsible for Order actions.
+ * Service responsible for Order Domain Actions.
  *
  * @author rafael.ferrari
  */

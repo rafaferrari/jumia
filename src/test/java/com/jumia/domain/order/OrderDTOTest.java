@@ -25,10 +25,10 @@ public class OrderDTOTest {
         final LocalDateTime finalDate = LocalDateTime.of(2017, Month.JANUARY, 1, 0, 0, 0);
 
         final List<MonthIntervalFilter> monthFilters = new ArrayList<>();
-        monthFilters.add(new MonthIntervalFilter.MonthIntervalFilterBuilder(1, 6).build());
+        monthFilters.add(new MonthIntervalFilter(1, 6));
 
         // WHEN
-        final OrderDTO orderDTO = new OrderDTO.OrderDTOBuilder(initialDate, finalDate, monthFilters).build();
+        final OrderDTO orderDTO = new OrderDTO(initialDate, finalDate, monthFilters);
 
         // THEN
         assertThat(orderDTO.getInitialDate()).isEqualByComparingTo(initialDate);
@@ -43,7 +43,7 @@ public class OrderDTOTest {
         final List<MonthIntervalFilter> monthFilters = new ArrayList<>();
 
         // WHEN
-        new OrderDTO.OrderDTOBuilder(initialDate, finalDate, monthFilters).build();
+        new OrderDTO(initialDate, finalDate, monthFilters);
 
         // THEN 
         // Catch the ServiceException
@@ -56,10 +56,10 @@ public class OrderDTOTest {
         final LocalDateTime finalDate = LocalDateTime.of(2017, Month.JANUARY, 1, 0, 0, 0);
 
         final List<MonthIntervalFilter> monthFilters = new ArrayList<>();
-        monthFilters.add(new MonthIntervalFilter.MonthIntervalFilterBuilder(1, 6).build());
+        monthFilters.add(new MonthIntervalFilter(1, 6));
 
         // WHEN
-        new OrderDTO.OrderDTOBuilder(initialDate, finalDate, monthFilters).build();
+        new OrderDTO(initialDate, finalDate, monthFilters);
 
         // THEN 
         // Catch the ServiceException

@@ -34,8 +34,7 @@ public class Executor {
             final LocalDateTime finalDate = LocalDateTime.parse(p.get("finalDate").getAsString(), DATE_TIME_FORMATTER);
             final List<MonthIntervalFilter> monthFilters = parseMonthFilters(p.get("monthSort").getAsString());
 
-            final OrderDTO orderDTO = new OrderDTO.OrderDTOBuilder(initialDate, finalDate, monthFilters).build();
-
+            final OrderDTO orderDTO = new OrderDTO(initialDate, finalDate, monthFilters);
             try {
                 LOGGER.info(orderService.countAllByProductCreationDate(Optional.of(orderDTO)).toString());
             } catch (final ServiceException e) {
@@ -55,20 +54,19 @@ public class Executor {
 
     private List<MonthIntervalFilter> parseMonthFilters(final String monthSort) {
         LOGGER.debug("Parsing of Month Filters values.");
-        
+
         final List<MonthIntervalFilter> monthIntervalFilters = new ArrayList<>();
-        
+
         final String[] filters = monthSort.replaceAll("\\s+", "").split(",");
         for (final String monthFilter : filters) {
             if (!monthFilter.matches("(\\d{1,2})-(\\d{1,2})")) {
                 throw new IllegalArgumentException("Invalid value inputed for monthFilters.");
             }
-            
+
             final String[] resultValues = monthFilter.split("-");
-            monthIntervalFilters.add(new MonthIntervalFilter.MonthIntervalFilterBuilder(
-                    Integer.parseInt(resultValues[0]), Integer.parseInt(resultValues[1])).build());
+            monthIntervalFilters.add(new MonthIntervalFilter(Integer.parseInt(resultValues[0]), Integer.parseInt(resultValues[1])));
         }
-        
+
         return monthIntervalFilters;
     }
 

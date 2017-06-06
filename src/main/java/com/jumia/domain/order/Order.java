@@ -1,10 +1,10 @@
 package com.jumia.domain.order;
 
-import com.jumia.domain.item.Item;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
 import javax.persistence.*;
+import com.jumia.domain.item.Item;
 
 /**
  * @author rafael.ferrari
