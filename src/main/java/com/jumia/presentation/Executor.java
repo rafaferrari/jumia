@@ -36,7 +36,7 @@ public class Executor {
 
             final OrderDTO orderDTO = new OrderDTO(initialDate, finalDate, monthFilters);
             try {
-                LOGGER.info(orderService.countAllByProductCreationDate(Optional.of(orderDTO)).toString());
+                LOGGER.info(orderService.countAllByProductCreationDate(Optional.of(orderDTO)));
             } catch (final ServiceException e) {
                 LOGGER.error("Error running application -> " + e.getMessage());
                 throw new IllegalStateException(e);
@@ -57,7 +57,7 @@ public class Executor {
         final String[] filters = monthSort.replaceAll("\\s+", "").split(",");
         for (final String monthFilter : filters) {
             Preconditions.checkArgument(monthFilter.matches("(\\d{1,2})-(\\d{1,2})"), "Invalid value inputed for monthFilters.");
-            
+
             final String[] resultValues = monthFilter.split("-");
             monthIntervalFilters.add(new MonthIntervalFilter(Integer.parseInt(resultValues[0]), Integer.parseInt(resultValues[1])));
         }

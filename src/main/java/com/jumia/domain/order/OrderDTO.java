@@ -1,5 +1,6 @@
 package com.jumia.domain.order;
 
+import com.google.common.base.Preconditions;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -21,15 +22,11 @@ public class OrderDTO {
     }
 
     private void validateMonthIntervalFilters(final List<MonthIntervalFilter> monthIntervalFilters) {
-        if (monthIntervalFilters.isEmpty()) {
-            throw new IllegalStateException("List of Month Interval Filters is Empty.");
-        }
+        Preconditions.checkArgument(!monthIntervalFilters.isEmpty(), "List of Month Interval Filters is Empty.");
     }
 
     private void validateRangeDate(final LocalDateTime initialDate, final LocalDateTime finalDate) {
-        if (initialDate.toLocalDate().isAfter(finalDate.toLocalDate())) {
-            throw new IllegalStateException("Invalid Range of Dates.");
-        }
+        Preconditions.checkState(initialDate.toLocalDate().isBefore(finalDate.toLocalDate()), "Invalid Range of Dates.");
     }
 
     public LocalDateTime getInitialDate() {

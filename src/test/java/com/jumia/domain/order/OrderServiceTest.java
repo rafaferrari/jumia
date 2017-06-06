@@ -49,10 +49,10 @@ public class OrderServiceTest {
         final OrderDTO orderDTO = new OrderDTO(initialDate, finalDate, monthFilters);
 
         // WHEN
-        final StringBuilder campanhas = orderService.countAllByProductCreationDate(Optional.of(orderDTO));
+        final String result = orderService.countAllByProductCreationDate(Optional.of(orderDTO));
 
         // THEN
-        assertThat(campanhas.length()).isGreaterThan(expectedResult);
+        assertThat(result.length()).isGreaterThan(expectedResult);
     }
 
     @Test
@@ -68,10 +68,10 @@ public class OrderServiceTest {
         final OrderDTO orderDTO = new OrderDTO(initialDate, finalDate, monthFilters);
 
         // WHEN
-        final StringBuilder campanhas = orderService.countAllByProductCreationDate(Optional.of(orderDTO));
+        final String result = orderService.countAllByProductCreationDate(Optional.of(orderDTO));
 
         // THEN
-        assertThat(campanhas.length()).isEqualTo(expectedResult);
+        assertThat(result.length()).isEqualTo(expectedResult);
     }
 
     @Test
@@ -87,10 +87,10 @@ public class OrderServiceTest {
         final OrderDTO orderDTO = new OrderDTO(initialDate, finalDate, monthFilters);
 
         // WHEN
-        final StringBuilder campanhas = orderService.countAllByProductCreationDate(Optional.of(orderDTO));
+        final String result = orderService.countAllByProductCreationDate(Optional.of(orderDTO));
 
         // THEN
-        assertThat(campanhas.length()).isGreaterThan(expectedResult);
+        assertThat(result.length()).isGreaterThan(expectedResult);
     }
 
     @Test(expected = ServiceException.class)

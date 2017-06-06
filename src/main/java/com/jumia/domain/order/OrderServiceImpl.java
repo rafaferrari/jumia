@@ -28,8 +28,7 @@ public class OrderServiceImpl implements OrderService {
     private ItemRepository itemRepository;
 
     @Override
-    public StringBuilder countAllByProductCreationDate(final Optional<OrderDTO> orderDTO) throws ServiceException {
-        LOGGER.debug("Filtering Orders by Production Creating Date.");
+    public String countAllByProductCreationDate(final Optional<OrderDTO> orderDTO) throws ServiceException {
         try {
             final StringBuilder result = new StringBuilder();
             final List<Item> items = itemRepository.findAllByOrderPlacedDate(orderDTO.get().getInitialDate(), orderDTO.get().getFinalDate());
@@ -39,7 +38,7 @@ public class OrderServiceImpl implements OrderService {
                     result.append(String.format("%n %s-%s months: %s orders", c.getInitialMonthFilter(), c.getFinalMonthFilter(), count));
                 });
             }
-            return result;
+            return result.toString();
         } catch (final Exception e) {
             LOGGER.error("Error Filtering Orders by Production Creating Date.");
             throw new ServiceException(e.getMessage());

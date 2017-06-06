@@ -17,7 +17,7 @@ public interface OrderService {
      * @return Count Orders filtered by Product Creation Date.
      * @throws ServiceException
      */
-    StringBuilder countAllByProductCreationDate(final Optional<OrderDTO> orderDTO) throws ServiceException;
+    String countAllByProductCreationDate(final Optional<OrderDTO> orderDTO) throws ServiceException;
 
     /**
      * Save new Order.

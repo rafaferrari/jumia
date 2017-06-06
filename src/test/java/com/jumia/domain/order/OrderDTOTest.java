@@ -32,7 +32,7 @@ public class OrderDTOTest {
         assertThat(orderDTO.getFinalDate()).isEqualByComparingTo(finalDate);
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void shouldThrowExceptionWhenCreateOrderDtoWithoutListMonthFilters() throws ServiceException {
         // GIVEN 
         final LocalDateTime initialDate = LocalDateTime.of(2016, Month.JANUARY, 1, 0, 0, 0);
@@ -43,7 +43,7 @@ public class OrderDTOTest {
         new OrderDTO(initialDate, finalDate, monthFilters);
 
         // THEN 
-        // Catch the ServiceException
+        // Catch the IllegalArgumentException
     }
 
     @Test(expected = IllegalStateException.class)
@@ -59,7 +59,7 @@ public class OrderDTOTest {
         new OrderDTO(initialDate, finalDate, monthFilters);
 
         // THEN 
-        // Catch the ServiceException
+        // Catch the IllegalStateException
     }
 
 }
