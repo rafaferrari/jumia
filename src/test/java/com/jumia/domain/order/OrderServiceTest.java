@@ -37,8 +37,9 @@ public class OrderServiceTest {
     }
 
     @Test
-    public void test_should_get_all_orders_by_order_placed_date() throws ServiceException {
+    public void shouldGetAllOrdersByOrderPlacedDate() throws ServiceException {
         // GIVEN 
+        final int expectedResult = 1;
         final LocalDateTime initialDate = LocalDateTime.of(2016, Month.JANUARY, 1, 0, 0, 0);
         final LocalDateTime finalDate = LocalDateTime.of(2017, Month.JANUARY, 1, 0, 0, 0);
 
@@ -51,12 +52,13 @@ public class OrderServiceTest {
         final StringBuilder campanhas = orderService.countAllByProductCreationDate(Optional.of(orderDTO));
 
         // THEN
-        assertThat(campanhas.length()).isGreaterThan(1);
+        assertThat(campanhas.length()).isGreaterThan(expectedResult);
     }
 
     @Test
-    public void test_should_not_get_all_orders_by_order_placed_date() throws ServiceException {
+    public void shouldNotGetAllOrdersByOrderPlacedDate() throws ServiceException {
         // GIVEN 
+        final int expectedResult = 0;
         final LocalDateTime initialDate = LocalDateTime.of(2017, Month.JANUARY, 1, 0, 0, 0);
         final LocalDateTime finalDate = LocalDateTime.of(2018, Month.JANUARY, 1, 0, 0, 0);
 
@@ -69,12 +71,13 @@ public class OrderServiceTest {
         final StringBuilder campanhas = orderService.countAllByProductCreationDate(Optional.of(orderDTO));
 
         // THEN
-        assertThat(campanhas.length()).isEqualTo(0);
+        assertThat(campanhas.length()).isEqualTo(expectedResult);
     }
 
     @Test
-    public void test_should_not_get_all_orders_with_invalid_placed_date() throws ServiceException {
+    public void shouldNotGetAllOrdersWithInvalidPlacedDate() throws ServiceException {
         // GIVEN 
+        final int expectedResult = 0;
         final LocalDateTime initialDate = LocalDateTime.of(2016, Month.JANUARY, 1, 0, 0, 0);
         final LocalDateTime finalDate = LocalDateTime.of(2017, Month.JANUARY, 1, 0, 0, 0);
 
@@ -87,11 +90,11 @@ public class OrderServiceTest {
         final StringBuilder campanhas = orderService.countAllByProductCreationDate(Optional.of(orderDTO));
 
         // THEN
-        assertThat(campanhas.length()).isGreaterThan(0);
+        assertThat(campanhas.length()).isGreaterThan(expectedResult);
     }
 
     @Test(expected = ServiceException.class)
-    public void test_should_throw_exception_when_save_invalid_order() throws ServiceException {
+    public void shouldThrowExceptionWhenSaveInvalidOrder() throws ServiceException {
         // GIVEN
         final Optional<Order> order = Optional.of(new Order());
 
@@ -103,7 +106,7 @@ public class OrderServiceTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void test_should_throw_exception_when_try_to_save_invalid_order() throws ServiceException {
+    public void shouldThrowExceptionWhenTryToSaveInvalidOrder() throws ServiceException {
         // GIVEN
         final Optional<Order> order = Optional.empty();
 
@@ -115,7 +118,7 @@ public class OrderServiceTest {
     }
 
     @Test(expected = ServiceException.class)
-    public void test_should_throw_exception_when_get_all_orders_with_invalid_orderdto() throws ServiceException {
+    public void shouldThrowExceptionWhenGetAllOrdersWithInvalidOrderDto() throws ServiceException {
         // GIVEN
         final OrderDTO orderDTO = null;
 
