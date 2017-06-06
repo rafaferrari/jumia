@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import com.jumia.presentation.ProcessOrder;
 
 /**
- * Responsible for Configure and Start Application.
+ * Responsible For Start Application.
  *
  * @author rafael.ferrari
  */
