@@ -20,19 +20,29 @@ public class ProcessOrder {
     @Autowired
     private OrderService orderService;
 
-    public void process(final ConsoleOptionsProcessor consoleOptions) {
-        try {
+    public void run(final String... arguments) {
+        final ConsoleOptionsProcessor consoleOptions = new ConsoleOptionsProcessor(arguments);
+        consoleOptions.process();
+        if (consoleOptions.isPresent()) {
             final Optional<OrderDTO> orderDTO = createOrderDTO(consoleOptions);
+            process(orderDTO);
+        }
+    }
+
+    protected void process(final Optional<OrderDTO> orderDTO) {
+        try {
             LOGGER.info(orderService.countAllByProductCreationDate(orderDTO));
         } catch (final ServiceException e) {
-            LOGGER.error("Error running application -> " + e.getMessage());
+            LOGGER.error("Error Processing Orders -> " + e.getMessage());
             throw new IllegalStateException(e);
         }
     }
 
     private Optional<OrderDTO> createOrderDTO(final ConsoleOptionsProcessor consoleOptions) {
         return Optional.of(new OrderDTO(
-                consoleOptions.getInitialDate().get(), consoleOptions.getFinalDate().get(), consoleOptions.getMonthFilters()));
+                consoleOptions.getInitialDate().get(),
+                consoleOptions.getFinalDate().get(),
+                consoleOptions.getMonthFilters()));
     }
 
 }

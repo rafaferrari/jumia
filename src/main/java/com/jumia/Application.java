@@ -1,6 +1,5 @@
 package com.jumia;
 
-import com.jumia.presentation.ConsoleOptionsProcessor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -22,12 +21,8 @@ import com.jumia.presentation.ProcessOrder;
 public class Application {
 
     public static void main(final String... arguments) {
-        final ConsoleOptionsProcessor consoleOptionsProcessor = new ConsoleOptionsProcessor(arguments);
-        consoleOptionsProcessor.process();
-        if (consoleOptionsProcessor.isPresent()) {
-            final ApplicationContext context = SpringApplication.run(Application.class, arguments);
-            context.getBean(ProcessOrder.class).process(consoleOptionsProcessor);
-        }
+        final ApplicationContext context = SpringApplication.run(Application.class, arguments);
+        context.getBean(ProcessOrder.class).run(arguments);
     }
 
 }
