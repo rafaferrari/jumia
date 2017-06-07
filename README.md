@@ -14,6 +14,7 @@ The result should be a list of intervals (in months) that groups the orders base
 - Build Tool: Gradle
 - Google Guava
 - Database: MySQL
+- Virtual Database for Tests: HSQLDB
 - Database Source Control: Liquibase
 - API for Parsing Command Line: Apache Commons CLI
 - Code Coverage and Tests Reports: Jacoco 
@@ -36,7 +37,9 @@ gradle clean build
 ```
 - After project build, gradle will generate the "orders-1.0.0.jar" at "build/libs/"
 - The first time that you build project, liquibase will generate all database structure and create some inital data(ORDERS, ITEMS AND PRODUCTS) to see when run the project.
-
+- 1-3(JANUARY-MARCH) Has one Order.
+- 4-6(APRIL-JUNE) Has one Order.
+- If you want populate some Orders, just edit the file "src/main/resources/db/changelog/1.0.0/db.changelog-DML.yaml"
 - To run project, run the code below:
 ```bash
 java -jar orders-1.0.0.jar -initialDate "2016-01-01 00:00:00" -finalDate "2017-01-01 00:00:00" -monthSort "1-3, 4-6, 7-12"
